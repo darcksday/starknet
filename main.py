@@ -26,10 +26,10 @@ if __name__ == '__main__':
             cprint(f'3. Exchange withdraw', 'yellow')
             cprint(f'4. Transfer to exchange', 'yellow')
             cprint(f'5. Orbiter bridge', 'yellow')
-            cprint(f'6. Swaps: JediSwap/MySwap/10kSwap...', 'yellow')
-            cprint(f'7. NFT: StarknetId/Starkverse/Pyramid...', 'yellow')
-            cprint(f'8. ZkLend: supply/withdraw/borrow/repay...', 'yellow')
-            cprint(f'9. Dmail: send email', 'yellow')
+            cprint(f'6. Dmail: send email', 'yellow')
+            cprint(f'7. Swaps: JediSwap/MySwap/10kSwap...', 'yellow')
+            cprint(f'8. NFT: StarknetId/Starkverse/Pyramid...', 'yellow')
+            cprint(f'9. ZkLend: supply/withdraw/borrow/repay...', 'yellow')
             cprint(f'10. Run one random function from routing (use config/routes.py)', 'yellow')
             cprint(f'11. Run all functions from routing randomly (use config/routes.py)', 'yellow')
             cprint(
@@ -68,19 +68,19 @@ if __name__ == '__main__':
                 break
 
             elif option == 6:
-                interface_swaps()
+                run_script(dmail_send_email, "0", [])
                 break
 
             elif option == 7:
-                interface_nft()
+                interface_swaps()
                 break
 
             elif option == 8:
-                interface_zklend()
+                interface_nft()
                 break
 
             elif option == 9:
-                run_script(dmail_send_email, "0", [])
+                interface_zklend()
                 break
 
             elif option == 10:

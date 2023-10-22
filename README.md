@@ -13,6 +13,7 @@ Documentation: https://starknet-aio.gitbook.io/starknet-aio/
 - Exchange withdraw ETH.
 - Transfer ETH to exchange.
 - Orbiter bridge.
+- Dmail: send random email.
 - Swaps:
     - AVNU
     - JediSwap
@@ -20,12 +21,13 @@ Documentation: https://starknet-aio.gitbook.io/starknet-aio/
     - 10kSwap
     - SithSwap
     - Protoss
-    - Random Swap: ETH > Random Token > ETH / Random Dex
+    - RANDOM SWAP: ETH > Random Token > ETH / Random Dex
 - NFT:
     - StarknetId
     - Starkverse
     - Pyramid
     - Unframed
+    - RANDOM: Call random NFT function
 - ZkLend:
     - Deposit (supply)
     - Withdraw
@@ -34,8 +36,7 @@ Documentation: https://starknet-aio.gitbook.io/starknet-aio/
     - Borrow
     - Repay
     - ROUTE: Deposit ETH > Enable collateral > Borrow random token > Repay token > Withdraw ETH
-- Dmail: send random email.
-- Multiple functions: make one or multiple random transactions.
+- MULTIPLE Functions: make one or multiple random transactions.
 - VOLUME: increase wallet tx volumes. Process step-by-step:
   Script withdraw ETH from OKX to your StarkNet wallet, then use zkLend to provide ETH as collateral and borrow USDC,
   proceed to execute multiple USDC/USDT swaps on AVNU/SithSwap (the number of swaps can be configured in config/settings.py),
