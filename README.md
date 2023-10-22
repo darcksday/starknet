@@ -4,6 +4,8 @@ This script is your ultimate companion for navigating the Starknet network effor
 It offers a range of features that make working with Starknet a breeze, simplifies farm management,
 and enables various network operations.
 
+Documentation: https://starknet-aio.gitbook.io/starknet-aio/
+
 ### Features:
 
 - Check balances.
@@ -33,7 +35,7 @@ and enables various network operations.
     - Repay
     - ROUTE: Deposit ETH > Enable collateral > Borrow random token > Repay token > Withdraw ETH
 - Dmail: send random email.
-- ROUTING: your custom routes - one or multiple transactions.
+- MultiSwap: make one or multiple random transactions.
 - VOLUME: increase wallet tx volumes. Process step-by-step:
   Script withdraw ETH from OKX to your StarkNet wallet, then use zkLend to provide ETH as collateral and borrow USDC,
   proceed to execute multiple USDC/USDT swaps on AVNU/SithSwap (the number of swaps can be configured in config/settings.py),
