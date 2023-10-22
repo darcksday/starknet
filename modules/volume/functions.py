@@ -24,66 +24,67 @@ def run_one_wallet_volume(wallet, recipient, cex_network):
     csv_name = f'volume_report'
     account = Starknet(wallet['index'], wallet)
 
-    logger.info(f"[{account._id}][{account.address_original}]: Run TX Volume")
-
-    rand_pct = ETH_VOLUME_AMOUNT_PER_ACC * 0.03
-    amount = round(ETH_VOLUME_AMOUNT_PER_ACC - random.uniform(0, rand_pct), 4)
-    logger.info(f'Amount: {amount} ETH')
-
-    # ------------------ Withdraw ETH ------------------
-
-    call_exchange_withdraw(account.address_original, cex_network, round(amount + 0.0001, 4), 'ETH', 'okx')
-    sleeping(MIN_SLEEP, MAX_SLEEP)
-
-    # --------------- Check wallet balance ---------------
-
-    check_wait_wallet_balance(account, amount, 'ETH')
-    sleeping(MIN_SLEEP, MAX_SLEEP)
-
-    # --------- zkLend - supply ETH, borrow USDC ----------
-
-    # Enable ETH collateral
-    run_script_one(account, zklend_collateral_enable, "", [TOKEN_ADDRESS['ETH']], csv_name)
-    sleeping(int(MIN_SLEEP / 2), int(MAX_SLEEP / 2))
-
-    zeth_amount = amount * 0.99
-
-    # Deposit ETH
-    run_script_one(account, zklend_deposit, str(zeth_amount), [TOKEN_ADDRESS['ETH']], csv_name)
-    sleeping(MIN_SLEEP, MAX_SLEEP)
-
-    # Borrow USDC
+    amount = 1.3014
+    # logger.info(f"[{account._id}][{account.address_original}]: Run TX Volume")
+    #
+    # rand_pct = ETH_VOLUME_AMOUNT_PER_ACC * 0.03
+    # amount = round(ETH_VOLUME_AMOUNT_PER_ACC - random.uniform(0, rand_pct), 4)
+    # logger.info(f'Amount: {amount} ETH')
+    #
+    # # ------------------ Withdraw ETH ------------------
+    #
+    # call_exchange_withdraw(account.address_original, cex_network, round(amount + 0.0001, 4), 'ETH', 'okx')
+    # sleeping(MIN_SLEEP, MAX_SLEEP)
+    #
+    # # --------------- Check wallet balance ---------------
+    #
+    # check_wait_wallet_balance(account, amount, 'ETH')
+    # sleeping(MIN_SLEEP, MAX_SLEEP)
+    #
+    # # --------- zkLend - supply ETH, borrow USDC ----------
+    #
+    # # Enable ETH collateral
+    # run_script_one(account, zklend_collateral_enable, "", [TOKEN_ADDRESS['ETH']], csv_name)
+    # sleeping(int(MIN_SLEEP / 2), int(MAX_SLEEP / 2))
+    #
+    # zeth_amount = amount * 0.99
+    #
+    # # Deposit ETH
+    # run_script_one(account, zklend_deposit, str(zeth_amount), [TOKEN_ADDRESS['ETH']], csv_name)
+    # sleeping(MIN_SLEEP, MAX_SLEEP)
+    #
+    # # Borrow USDC
     max_borrow_usdc = get_max_borrow_amount(account, 'USDC')
-    run_script_one(account, zklend_borrow_stable, "0", [TOKEN_ADDRESS['USDC']], csv_name)
+    # run_script_one(account, zklend_borrow_stable, "0", [TOKEN_ADDRESS['USDC']], csv_name)
+    #
+    # check_wait_wallet_balance(account, max_borrow_usdc * 0.99, 'USDC', TOKEN_ADDRESS['USDC'])
+    # sleeping(MIN_SLEEP, MAX_SLEEP)
+    #
+    # # ---------------- Swap USDC/USDT ----------------
 
-    check_wait_wallet_balance(account, max_borrow_usdc * 0.99, 'USDC', TOKEN_ADDRESS['USDC'])
-    sleeping(MIN_SLEEP, MAX_SLEEP)
-
-    # ---------------- Swap USDC/USDT ----------------
-
-    swap_repeats = VOLUME_SWAP_REPEATS
-    if type(swap_repeats) is list:
-        swap_repeats = random.randint(swap_repeats[0], swap_repeats[1])
-
-    for step in range(swap_repeats):
-        logger.info(
-            f"[{account._id}][{account.address_original}] swap USDC > USDT (step {step + 1}/{swap_repeats})"
-        )
-
-        swap_function = random.choice([swap_token_avnu, swap_token_sithswap, swap_token_avnu])
-        run_script_one(account, swap_function, "0", [TOKEN_ADDRESS['USDC'], TOKEN_ADDRESS['USDT']], csv_name)
-
-        check_wait_wallet_balance(account, max_borrow_usdc * 0.99, 'USDT', TOKEN_ADDRESS['USDT'])
-        sleeping(MIN_SLEEP, MAX_SLEEP)
-
-        logger.info(
-            f"[{account._id}][{account.address_original}] swap USDT > USDC (step {step + 1}/{swap_repeats})"
-        )
-        swap_function = random.choice([swap_token_avnu, swap_token_sithswap, swap_token_avnu])
-        run_script_one(account, swap_function, "0", [TOKEN_ADDRESS['USDT'], TOKEN_ADDRESS['USDC']], csv_name)
-
-        check_wait_wallet_balance(account, max_borrow_usdc * 0.99, 'USDC', TOKEN_ADDRESS['USDC'])
-        sleeping(MIN_SLEEP, MAX_SLEEP)
+    # swap_repeats = VOLUME_SWAP_REPEATS
+    # if type(swap_repeats) is list:
+    #     swap_repeats = random.randint(swap_repeats[0], swap_repeats[1])
+    #
+    # for step in range(swap_repeats):
+    #     logger.info(
+    #         f"[{account._id}][{account.address_original}] swap USDC > USDT (step {step + 1}/{swap_repeats})"
+    #     )
+    #
+    #     swap_function = random.choice([swap_token_avnu, swap_token_sithswap, swap_token_avnu])
+    #     run_script_one(account, swap_function, "0", [TOKEN_ADDRESS['USDC'], TOKEN_ADDRESS['USDT']], csv_name)
+    #
+    #     check_wait_wallet_balance(account, max_borrow_usdc * 0.99, 'USDT', TOKEN_ADDRESS['USDT'])
+    #     sleeping(MIN_SLEEP, MAX_SLEEP)
+    #
+    #     logger.info(
+    #         f"[{account._id}][{account.address_original}] swap USDT > USDC (step {step + 1}/{swap_repeats})"
+    #     )
+    #     swap_function = random.choice([swap_token_avnu, swap_token_sithswap, swap_token_avnu])
+    #     run_script_one(account, swap_function, "0", [TOKEN_ADDRESS['USDT'], TOKEN_ADDRESS['USDC']], csv_name)
+    #
+    #     check_wait_wallet_balance(account, max_borrow_usdc * 0.99, 'USDC', TOKEN_ADDRESS['USDC'])
+    #     sleeping(MIN_SLEEP, MAX_SLEEP)
 
     # ------------- zkLend - repay USDC ---------------
 
