@@ -63,7 +63,7 @@ def call_function(
             formatted_datetime
         ])
 
-        if 'Insufficient max fee' in str(error) and retry < 3:
+        if ('Insufficient max fee' in str(error) or '502 Server Error' in str(error)) and retry < 3:
             time.sleep(10)
             return call_function(account, method, _amount, params, csv, retry + 1)
 
