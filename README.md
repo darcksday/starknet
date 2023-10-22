@@ -42,6 +42,7 @@ Documentation: https://starknet-aio.gitbook.io/starknet-aio/
   proceed to execute multiple USDC/USDT swaps on AVNU/SithSwap (the number of swaps can be configured in config/settings.py),
   then repay the borrowed USDC and withdraw the locked ETH from zkLend. The final step is to return the ETH to OKX,
   you can use OKX sub-accounts, script automatically move ETH to your main account and repeat this process for next wallet.
+  Note: before each swap step there is 50% chance to call one of functions from config/routes.py file to build unique route.
 
 **IMPORTANT: Use OKX sub-accounts for volume and transfers to OKX, don't mix your wallets!**
 

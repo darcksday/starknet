@@ -3,9 +3,10 @@ import time
 
 from loguru import logger
 from common import TOKEN_ADDRESS
+from config.routes import USE_MULTIPLE_FUNCTIONS
 from config.settings import *
 from helpers.cli import sleeping
-from helpers.factory import run_script_one
+from helpers.factory import run_script_one, run_multiple
 from helpers.starknet import Starknet
 from modules.exchange_withdraw.config import CEX_KEYS
 from modules.exchange_withdraw.functions import call_exchange_withdraw
@@ -66,6 +67,19 @@ def run_one_wallet_volume(wallet, recipient, cex_network):
         swap_repeats = random.randint(swap_repeats[0], swap_repeats[1])
 
     for step in range(swap_repeats):
+        # 50% chance to run random function before each step
+        rand_chance = random.randint(0, 1)
+        if rand_chance == 1:
+            logger.info(
+                f"[{account._id}][{account.address_original}] Random function before step #{step + 1}"
+            )
+            selected_random_function = random.choice(USE_MULTIPLE_FUNCTIONS)
+            if selected_random_function:
+                run_multiple([selected_random_function])
+                sleeping(int(MIN_SLEEP / 2), MAX_SLEEP * 2)
+            else:
+                logger.info(f"[{account._id}][{account.address_original}] No random functions available in 'config/routes.py'")
+
         logger.info(
             f"[{account._id}][{account.address_original}] swap USDC > USDT (step {step + 1}/{swap_repeats})"
         )
