@@ -69,16 +69,16 @@ def run_one_wallet_volume(wallet, recipient, cex_network):
     for step in range(swap_repeats):
         # 50% chance to run random function before each step
         rand_chance = random.randint(0, 1)
-        if rand_chance == 1:
-            logger.info(
-                f"[{account._id}][{account.address_original}] Random function before step #{step + 1}"
-            )
-            selected_random_function = random.choice(USE_MULTIPLE_FUNCTIONS)
-            if selected_random_function:
-                run_multiple([selected_random_function])
-                sleeping(int(MIN_SLEEP / 2), MAX_SLEEP * 2)
-            else:
-                logger.info(f"[{account._id}][{account.address_original}] No random functions available in 'config/routes.py'")
+        # if rand_chance == 1:
+        #     logger.info(
+        #         f"[{account._id}][{account.address_original}] Random function before step #{step + 1}"
+        #     )
+        #     selected_random_function = random.choice(USE_MULTIPLE_FUNCTIONS)
+        #     if selected_random_function:
+        #         run_script_one(account, selected_random_function, "0", [], csv_name)
+        #         sleeping(int(MIN_SLEEP / 2), MAX_SLEEP * 2)
+        #     else:
+        #         logger.info(f"[{account._id}][{account.address_original}] No random functions available in 'config/routes.py'")
 
         logger.info(
             f"[{account._id}][{account.address_original}] swap USDC > USDT (step {step + 1}/{swap_repeats})"
