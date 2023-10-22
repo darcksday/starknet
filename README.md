@@ -14,13 +14,13 @@ Documentation: https://starknet-aio.gitbook.io/starknet-aio/
 - Transfer ETH to exchange.
 - Orbiter bridge.
 - Swaps:
+    - AVNU
     - JediSwap
     - MySwap
     - 10kSwap
     - SithSwap
     - Protoss
-    - AVNU
-    - OpenOcean
+    - Random Swap: ETH > Random Token > ETH / Random Dex
 - NFT:
     - StarknetId
     - Starkverse
