@@ -111,7 +111,7 @@ class Starknet:
             if retry > 3:
                 raise Exception(f"Error: {error}. max retry reached")
 
-            time.sleep(5)
+            time.sleep(10)
             return self.get_balance(contract_address, retry + 1)
 
     def sign_transaction(self, calls: List[Call], cairo_version: int = 0):
