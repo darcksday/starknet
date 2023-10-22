@@ -1,5 +1,6 @@
 import random
 import sys
+import time
 
 from typing import Union, List
 from loguru import logger
@@ -91,19 +92,27 @@ class Starknet:
         )
         return contract
 
-    def get_balance(self, contract_address: int) -> dict:
+    def get_balance(self, contract_address: int, retry=0) -> dict:
         contract = self.get_contract(contract_address)
-        symbol_data = contract.functions["symbol"].call_sync()
-        decimal = contract.functions["decimals"].call_sync()
-        balance_wei = contract.functions["balanceOf"].call_sync(self.address)
-        balance = balance_wei.balance / 10 ** decimal.decimals
 
-        return {
-            "balance_wei": balance_wei.balance,
-            "balance": balance,
-            "symbol": decode_shortstring(symbol_data.symbol),
-            "decimal": decimal.decimals
-        }
+        try:
+            symbol_data = contract.functions["symbol"].call_sync()
+            decimal = contract.functions["decimals"].call_sync()
+            balance_wei = contract.functions["balanceOf"].call_sync(self.address)
+            balance = balance_wei.balance / 10 ** decimal.decimals
+
+            return {
+                "balance_wei": balance_wei.balance,
+                "balance": balance,
+                "symbol": decode_shortstring(symbol_data.symbol),
+                "decimal": decimal.decimals
+            }
+        except Exception as error:
+            if retry > 3:
+                raise Exception(f"Error: {error}. max retry reached")
+
+            time.sleep(5)
+            return self.get_balance(contract_address, retry + 1)
 
     def sign_transaction(self, calls: List[Call], cairo_version: int = 0):
         nonce = self.account.get_nonce_sync()
