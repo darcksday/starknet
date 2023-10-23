@@ -8,9 +8,12 @@ from helpers.starknet import Starknet
 
 
 def transfer_eth(account: Starknet, recipient, amount: float):
+    min_transaction_amount = 0.00001
     balance_wei = account.account.get_balance_sync(TOKEN_ADDRESS["ETH"])
+
     if not amount:
-        amount_wei = balance_wei - int_to_wei(MIN_BALANCE_ETH)
+        tx_fee = int_to_wei(0.00007)
+        amount_wei = balance_wei - int_to_wei(MIN_BALANCE_ETH) - tx_fee
     else:
         amount_wei = int_to_wei(amount)
         if amount_wei + int_to_wei(MIN_BALANCE_ETH) > balance_wei:
@@ -19,7 +22,7 @@ def transfer_eth(account: Starknet, recipient, amount: float):
 
     logger.info(f"[{account._id}][{account.address_original}] Transfer {wei_to_int(amount_wei)} ETH to {recipient}")
 
-    if amount_wei < int_to_wei(0.00001):
+    if amount_wei < int_to_wei(min_transaction_amount):
         logger.error(f"Too small transaction amount, skip")
         return
 

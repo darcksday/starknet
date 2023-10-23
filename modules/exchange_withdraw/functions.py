@@ -18,7 +18,6 @@ def call_exchange_withdraw(
         params = {}
 
         if cex == 'okx':
-            # network = network.split("-", 1)[1]
             ccxt_account.load_markets()
             networks = ccxt_account.currencies[token]['networks']
             params['fee'] = networks[network]['fee']

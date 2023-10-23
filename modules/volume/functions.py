@@ -142,7 +142,8 @@ def run_one_wallet_volume(wallet, recipient, cex_network):
                         time.sleep(3)
                         break
                     elif acc_balance > 0:
-                        logger.info(f"[{account._id}] Only {acc_balance} ETH found, waiting {amount_to_withdraw} ETH...")
+                        logger.info(
+                            f"[{account._id}] Only {acc_balance} ETH found, waiting {amount_to_withdraw} ETH...")
 
         sleeping(MIN_SLEEP, MAX_SLEEP)
         continue

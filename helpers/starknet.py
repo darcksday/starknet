@@ -1,6 +1,6 @@
+import time
 import random
 import sys
-import time
 
 from typing import Union, List
 from loguru import logger
@@ -14,12 +14,13 @@ from starknet_py.net.full_node_client import FullNodeClient
 from starknet_py.net.gateway_client import GatewayClient
 from starknet_py.net.models import StarknetChainId, Invoke
 from starknet_py.net.signer.stark_curve_signer import KeyPair
-
+from helpers.retry import retry
 from config.settings import *
 from common import *
 from helpers.common import int_to_wei
 
 MAX_RETRIES = 3
+
 
 class Starknet:
     def __init__(self, _id: int, wallet_data) -> None:
@@ -93,61 +94,54 @@ class Starknet:
         )
         return contract
 
-    def get_balance(self, contract_address: int, retry=0) -> dict:
+    @retry
+    def get_balance(self, contract_address: int) -> dict:
         contract = self.get_contract(contract_address)
+        symbol_data = contract.functions["symbol"].call_sync()
+        decimal = contract.functions["decimals"].call_sync()
+        balance_wei = contract.functions["balanceOf"].call_sync(self.address)
+        balance = balance_wei.balance / 10 ** decimal.decimals
 
-        try:
-            symbol_data = contract.functions["symbol"].call_sync()
-            decimal = contract.functions["decimals"].call_sync()
-            balance_wei = contract.functions["balanceOf"].call_sync(self.address)
-            balance = balance_wei.balance / 10 ** decimal.decimals
+        return {
+            "balance_wei": balance_wei.balance,
+            "balance": balance,
+            "symbol": decode_shortstring(symbol_data.symbol),
+            "decimal": decimal.decimals
+        }
 
-            return {
-                "balance_wei": balance_wei.balance,
-                "balance": balance,
-                "symbol": decode_shortstring(symbol_data.symbol),
-                "decimal": decimal.decimals
-            }
-        except Exception as error:
-            if retry > MAX_RETRIES:
-                raise Exception(f"Error: {error}. max retry reached")
-            time.sleep(10)
-            return self.get_balance(contract_address, retry + 1)
-
-    def sign_transaction(self, calls: List[Call], cairo_version: int = 0, retry=0):
-        try:
-            nonce = self.account.get_nonce_sync()
-            transaction = self.account.sign_invoke_transaction_sync(
-                calls=calls,
-                auto_estimate=True,
-                nonce=nonce,
-                cairo_version=cairo_version
-            )
-            return transaction
-        except Exception as error:
-            if retry > MAX_RETRIES:
-                raise Exception(f"Error: {error}. max retry reached")
-            time.sleep(10)
-            return self.sign_transaction(calls, cairo_version, retry + 1)
+    @retry
+    def sign_transaction(self, calls: List[Call], cairo_version: int = 0):
+        nonce = self.account.get_nonce_sync()
+        transaction = self.account.sign_invoke_transaction_sync(
+            calls=calls,
+            auto_estimate=True,
+            nonce=nonce,
+            cairo_version=cairo_version
+        )
+        return transaction
 
     def send_transaction(self, transaction: Invoke):
         transaction_response = self.account.client.send_transaction_sync(transaction)
         return transaction_response
 
-    def wait_until_tx_finished(self, tx_hash: int):
-        logger.info(f"Transaction: {self.explorer}{hex(tx_hash)}")
-        self.account.client.wait_for_tx_sync(tx_hash, check_interval=10)
-        logger.success(f"Transaction [{self._id}][{hex(self.address)}] SUCCESS!")
+    def wait_until_tx_finished(self, tx_hash: int, retry=0):
+        if retry == 0:
+            logger.info(f"Transaction: {self.explorer}{hex(tx_hash)}")
 
-    def get_swap_amount(self, from_token, amount: float, retry = 0) -> int:
         try:
-            balance = self.account.get_balance_sync(from_token)
-        except Exception as error:
-            if retry > MAX_RETRIES:
-                raise Exception(f"Error: {error}. max retry reached")
-            time.sleep(10)
-            return self.get_swap_amount(from_token, amount, retry + 1)
+            self.account.client.wait_for_tx_sync(tx_hash, check_interval=10)
+            logger.success(f"Transaction [{self._id}][{hex(self.address)}] SUCCESS!")
+        except Exception as e:
+            if retry < 3:
+                time.sleep(5)
+                self.wait_until_tx_finished(tx_hash, retry + 1)
+            else:
+                logger.error(f"[{self._id}][{hex(self.address)}] Error, max read retries reached.")
+                raise Exception(str(e))
 
+    @retry
+    def get_swap_amount(self, from_token, amount: float) -> int:
+        balance = self.account.get_balance_sync(from_token)
         if amount == 0:
             amount_wei = balance
             if from_token == TOKEN_ADDRESS["ETH"]:
