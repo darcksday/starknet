@@ -47,10 +47,10 @@ def build_transaction(wallet_address: str, from_token: int, to_token: int, amoun
     }
 
     if USE_REF:
-        # 0.005% fee
+        # 0.003% fee
         params.update({
             "referrer": "0x00860d7dd27b165979a5a5c0b1ca44fb53a756ed80848613931dacb6a58ff5a0",
-            "referrerFee": 0.05
+            "referrerFee": 0.003
         })
 
     return ocean_request(params)

@@ -18,9 +18,9 @@ def get_quotes(from_token: int, to_token: int, amount: int):
     }
 
     if USE_REF:
-        # 0.005% fee
+        # 0.003% fee
         params.update({
-            "integratorFees": hex(5),
+            "integratorFees": hex(3),
             "integratorFeeRecipient": hex(0x00860d7dd27b165979a5a5c0b1ca44fb53a756ed80848613931dacb6a58ff5a0)
         })
 

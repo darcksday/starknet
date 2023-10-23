@@ -1,11 +1,9 @@
 import random
 import sys
 import time
-
 from tqdm import tqdm
 from loguru import logger
 from termcolor import cprint
-
 from common import TOKEN_ADDRESS
 
 logger.remove()
@@ -31,7 +29,7 @@ def print_input_contract_address(title: str = 'Contract address / symbol'):
                     cprint(f'Wrong contract symbol. Please try again.\n', 'red')
                     continue
             elif len(contract_address) == 66:
-                return contract_address.lower()
+                return int(contract_address, 16)
             elif len(contract_address) == 0:
                 return TOKEN_ADDRESS.get('ETH')
 
