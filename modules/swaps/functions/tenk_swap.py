@@ -1,6 +1,7 @@
 import time
 from loguru import logger
 from config.settings import *
+from helpers.common import get_max_swap_amount_limited_dex
 from modules.swaps.config import STARKSWAP_CONTRACT, STARKSWAP_ABI
 
 
@@ -20,6 +21,7 @@ def swap_token_10kswap(account, amount, from_token, to_token):
     path = [from_token, to_token]
     deadline = int(time.time()) + 1000000
     amount_wei = account.get_swap_amount(from_token, amount)
+    get_max_swap_amount_limited_dex(from_token, amount)
 
     contract = account.get_contract(STARKSWAP_CONTRACT, STARKSWAP_ABI)
     min_amount_out = get_min_amount_out(contract, amount_wei, SLIPPAGE_PCT, path)

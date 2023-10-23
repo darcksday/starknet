@@ -3,14 +3,18 @@ import time
 
 from loguru import logger
 from common import TOKEN_ADDRESS
-from config.routes import USE_MULTIPLE_FUNCTIONS
 from config.settings import *
 from helpers.cli import sleeping
-from helpers.factory import run_script_one, run_multiple
+from helpers.factory import run_script_one
 from helpers.starknet import Starknet
+from modules.dmail.module import dmail_send_email
 from modules.exchange_withdraw.config import CEX_KEYS
 from modules.exchange_withdraw.functions import call_exchange_withdraw
 from modules.exchange_deposit.functions import transfer_eth
+from modules.nft.functions.pyramid import nft_pyramid
+from modules.nft.functions.starknet_id import nft_starknet_id
+from modules.nft.functions.starkverse import nft_starkverse
+from modules.nft.functions.unframed import nft_unframed
 from modules.swaps.functions.avnu import swap_token_avnu
 from modules.swaps.functions.sithswap import swap_token_sithswap
 from modules.volume.helpers import check_wait_wallet_balance, get_okx_token_balance, get_okx_account
@@ -69,16 +73,8 @@ def run_one_wallet_volume(wallet, recipient, cex_network):
     for step in range(swap_repeats):
         # 50% chance to run random function before each step
         rand_chance = random.randint(0, 1)
-        # if rand_chance == 1:
-        #     logger.info(
-        #         f"[{account._id}][{account.address_original}] Random function before step #{step + 1}"
-        #     )
-        #     selected_random_function = random.choice(USE_MULTIPLE_FUNCTIONS)
-        #     if selected_random_function:
-        #         run_script_one(account, selected_random_function, "0", [], csv_name)
-        #         sleeping(int(MIN_SLEEP / 2), MAX_SLEEP * 2)
-        #     else:
-        #         logger.info(f"[{account._id}][{account.address_original}] No random functions available in 'config/routes.py'")
+        if rand_chance == 1:
+            random_call_before_swaps(account, step)
 
         logger.info(
             f"[{account._id}][{account.address_original}] swap USDC > USDT (step {step + 1}/{swap_repeats})"
@@ -158,3 +154,20 @@ def is_okx_sub_account(num):
 
 def get_okx_sub_account_name(num):
     return CEX_KEYS[f'okx-sub-{num}']['name']
+
+
+def random_call_before_swaps(account, step):
+    logger.info(
+        f"[{account._id}][{account.address_original}] Random function before step #{step + 1}"
+    )
+    random_function = random.choice([
+        nft_pyramid,
+        nft_starknet_id,
+        nft_starkverse,
+        nft_unframed,
+        dmail_send_email,
+        zklend_collateral_enable,
+    ])
+
+    run_script_one(account, random_function, "0", [], random_function.__name__)
+    sleeping(int(MIN_SLEEP / 2), MAX_SLEEP * 2)

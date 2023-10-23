@@ -1,6 +1,7 @@
 from loguru import logger
 from common import TOKEN_ADDRESS
 from config.settings import *
+from helpers.common import get_max_swap_amount_limited_dex
 from modules.swaps.config import MYSWAP_POOLS, MYSWAP_CONTRACT, MYSWAP_ABI
 
 
@@ -42,6 +43,7 @@ def swap_token_myswap(account, amount, from_token, to_token):
     from_token_symbol = token_symbols.get(from_token)
     to_token_symbol = token_symbols.get(to_token)
 
+    get_max_swap_amount_limited_dex(from_token, amount)
     # cprint(f"Swap {amount} {from_token_symbol} to {to_token_symbol}", "yellow")
 
     amount_wei = account.get_swap_amount(from_token, amount)

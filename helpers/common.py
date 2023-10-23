@@ -9,6 +9,7 @@ import requests
 from loguru import logger
 from termcolor import cprint
 
+from common import TOKEN_ADDRESS, ZETH_TOKEN_ADDRESS
 from config.settings import CEX_DEFAULT, USE_SHUFFLE
 from helpers.csv_helper import get_csv_separator
 
@@ -112,3 +113,16 @@ def price_token(currency_price, symbol):
     if symbol in ['USDC', 'USDT', 'DAI', 'BUSD']:
         price = 1
     return price
+
+
+def get_max_swap_amount_limited_dex(token_address, amount: float):
+    max_amount = 0
+    if token_address == TOKEN_ADDRESS['ETH'] or token_address == ZETH_TOKEN_ADDRESS:
+        max_amount = 0.15
+    elif token_address in [TOKEN_ADDRESS['USDC'], TOKEN_ADDRESS['USDT'], TOKEN_ADDRESS['DAI']]:
+        max_amount = 250
+    elif token_address == TOKEN_ADDRESS['WBTC']:
+        max_amount = 0.0088
+
+    if amount > max_amount:
+        raise Exception(f"Amount '{amount}' is too big, you can lost your money on this DEX (no liquidity)")

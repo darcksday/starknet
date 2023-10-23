@@ -38,11 +38,12 @@ Documentation: https://starknet-aio.gitbook.io/starknet-aio/
     - ROUTE: Deposit ETH > Enable collateral > Borrow random token > Repay token > Withdraw ETH
 - MULTIPLE Functions: make one or multiple random transactions.
 - VOLUME: increase wallet tx volumes. Process step-by-step:
-  Script withdraw ETH from OKX to your StarkNet wallet, then use zkLend to provide ETH as collateral and borrow USDC,
-  proceed to execute multiple USDC/USDT swaps on AVNU/SithSwap (the number of swaps can be configured in config/settings.py),
-  then repay the borrowed USDC and withdraw the locked ETH from zkLend. The final step is to return the ETH to OKX,
+  Script withdraw ETH from OKX to your StarkNet wallet (amount include randomisation), then use zkLend to provide ETH as collateral and borrow USDC,
+  proceed to execute multiple USDC/USDT swaps on AVNU/SithSwap (the number of swaps can be configured in config/settings.py).
+  Before each swap step there is 50% chance to call random function to build unique route.
+  Then we repay the borrowed USDC (script can buy some USDC to fully cover the borrowed amount - it makes a swap in a random DEX) 
+  and withdraw the locked ETH from zkLend. The final step is to return the ETH to OKX,
   you can use OKX sub-accounts, script automatically move ETH to your main account and repeat this process for next wallet.
-  Note: before each swap step there is 50% chance to call one of functions from config/routes.py file to build unique route.
 
 **IMPORTANT: Use OKX sub-accounts for volume and transfers to OKX, don't mix your wallets!**
 

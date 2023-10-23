@@ -1,6 +1,7 @@
 import time
 from loguru import logger
 from config.settings import *
+from helpers.common import get_max_swap_amount_limited_dex
 from modules.swaps.config import *
 
 
@@ -19,6 +20,7 @@ def swap_token_jediswap(account, amount, from_token, to_token):
 
     contract = account.get_contract(JEDISWAP_CONTRACT, JEDISWAP_ABI)
 
+    get_max_swap_amount_limited_dex(from_token, amount)
     amount_wei = account.get_swap_amount(from_token, amount)
     path = [from_token, to_token]
     deadline = int(time.time()) + 1000000

@@ -110,39 +110,24 @@ class Starknet:
         except Exception as error:
             if retry > 3:
                 raise Exception(f"Error: {error}. max retry reached")
-
             time.sleep(10)
             return self.get_balance(contract_address, retry + 1)
 
-    def sign_transaction(self, calls: List[Call], cairo_version: int = 0):
-        nonce = self.account.get_nonce_sync()
-        transaction = self.account.sign_invoke_transaction_sync(
-            calls=calls,
-            auto_estimate=True,
-            nonce=nonce,
-            cairo_version=cairo_version
-        )
-        return transaction
-
-        # repeats = 0
-        # while True:
-        #     try:
-        #         nonce = self.account.get_nonce_sync()
-        #         transaction = self.account.sign_invoke_transaction_sync(
-        #             calls=calls,
-        #             auto_estimate=True,
-        #             nonce=nonce,
-        #             cairo_version=cairo_version
-        #         )
-        #         return transaction
-        #
-        #     except Exception as error:
-        #         if repeats > 3:
-        #             raise Exception(f"Error: {error}. max retry reached")
-        #
-        #         logger.error(f"Error: {error}, retry...")
-        #         repeats += 1
-        #         continue
+    def sign_transaction(self, calls: List[Call], cairo_version: int = 0, retry=0):
+        try:
+            nonce = self.account.get_nonce_sync()
+            transaction = self.account.sign_invoke_transaction_sync(
+                calls=calls,
+                auto_estimate=True,
+                nonce=nonce,
+                cairo_version=cairo_version
+            )
+            return transaction
+        except Exception as error:
+            if retry > 3:
+                raise Exception(f"Error: {error}. max retry reached")
+            time.sleep(10)
+            return self.sign_transaction(calls, cairo_version, retry + 1)
 
     def send_transaction(self, transaction: Invoke):
         transaction_response = self.account.client.send_transaction_sync(transaction)
