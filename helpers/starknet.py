@@ -19,6 +19,7 @@ from config.settings import *
 from common import *
 from helpers.common import int_to_wei
 
+MAX_RETRIES = 3
 
 class Starknet:
     def __init__(self, _id: int, wallet_data) -> None:
@@ -108,7 +109,7 @@ class Starknet:
                 "decimal": decimal.decimals
             }
         except Exception as error:
-            if retry > 3:
+            if retry > MAX_RETRIES:
                 raise Exception(f"Error: {error}. max retry reached")
             time.sleep(10)
             return self.get_balance(contract_address, retry + 1)
@@ -124,7 +125,7 @@ class Starknet:
             )
             return transaction
         except Exception as error:
-            if retry > 3:
+            if retry > MAX_RETRIES:
                 raise Exception(f"Error: {error}. max retry reached")
             time.sleep(10)
             return self.sign_transaction(calls, cairo_version, retry + 1)
@@ -138,8 +139,15 @@ class Starknet:
         self.account.client.wait_for_tx_sync(tx_hash, check_interval=10)
         logger.success(f"Transaction [{self._id}][{hex(self.address)}] SUCCESS!")
 
-    def get_swap_amount(self, from_token, amount: float) -> int:
-        balance = self.account.get_balance_sync(from_token)
+    def get_swap_amount(self, from_token, amount: float, retry = 0) -> int:
+        try:
+            balance = self.account.get_balance_sync(from_token)
+        except Exception as error:
+            if retry > MAX_RETRIES:
+                raise Exception(f"Error: {error}. max retry reached")
+            time.sleep(10)
+            return self.get_swap_amount(from_token, amount, retry + 1)
+
         if amount == 0:
             amount_wei = balance
             if from_token == TOKEN_ADDRESS["ETH"]:
