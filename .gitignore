@@ -1,10 +1,11 @@
-!.gitkeep
 
 .idea/
 venv/
 __pycache__/
 config
 results/*
+# ... except the .gitignore...
+!.gitkeep
 
 ### Linux ###
 *~
