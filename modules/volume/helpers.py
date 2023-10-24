@@ -7,11 +7,13 @@ from config.settings import MIN_SLEEP, MAX_SLEEP
 from helpers.cli import sleeping
 from helpers.common import int_to_wei
 from helpers.starknet import Starknet
+from helpers.retry import retry
 from modules.exchange_withdraw.config import CEX_KEYS
 
 config = dotenv_values("config/.env")
 
 
+@retry
 def check_wait_wallet_balance(account: Starknet, amount, token_symbol, contract_address=None):
     while True:
         logger.info(f"[{account._id}][{account.address_original}] Check wallet Balance: wait at least {amount} {token_symbol}")
@@ -29,6 +31,8 @@ def check_wait_wallet_balance(account: Starknet, amount, token_symbol, contract_
             logger.info(f"[{account._id}][{account.address_original}] {balance} {token_symbol} found")
             time.sleep(5)
             return balance
+        else:
+            logger.info(f"[{account._id}][{account.address_original}] {balance} {token_symbol} found, wait...")
 
         sleeping(MIN_SLEEP, MAX_SLEEP)
         continue

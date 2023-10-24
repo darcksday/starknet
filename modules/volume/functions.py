@@ -145,7 +145,7 @@ def run_one_wallet_volume(wallet, recipient, cex_network):
                         logger.info(
                             f"[{account._id}] Only {acc_balance} ETH found, waiting {amount_to_withdraw} ETH...")
 
-        sleeping(MIN_SLEEP, MAX_SLEEP)
+        sleeping(int(MIN_SLEEP / 2), int(MAX_SLEEP / 2))
         continue
 
 
