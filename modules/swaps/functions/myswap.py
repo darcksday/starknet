@@ -2,6 +2,7 @@ from loguru import logger
 from common import TOKEN_ADDRESS
 from config.settings import *
 from helpers.common import get_max_swap_amount_limited_dex
+from helpers.starknet import Starknet
 from modules.swaps.config import MYSWAP_POOLS, MYSWAP_CONTRACT, MYSWAP_ABI
 
 
@@ -34,7 +35,7 @@ def get_min_amount_out(contract, pool_id: int, reverse: bool, amount: int, slipp
     return int(min_amount_out - (min_amount_out / 100 * slippage))
 
 
-def swap_token_myswap(account, amount, from_token, to_token):
+def swap_token_myswap(account: Starknet, amount, from_token, to_token):
     logger.info(f"[{account._id}][{account.address_original}] Swap using MySwap")
 
     contract = account.get_contract(MYSWAP_CONTRACT, MYSWAP_ABI)

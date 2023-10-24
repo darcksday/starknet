@@ -1,6 +1,7 @@
 import time
 from loguru import logger
 from config.settings import *
+from helpers.starknet import Starknet
 from modules.swaps.config import SITHSWAP_CONTRACT, SITHSWAP_ABI
 
 
@@ -16,7 +17,7 @@ def get_min_amount_out(contract, amount: int, slippage: float, path: list):
     return int(min_amount_out - (min_amount_out / 100 * slippage)), stable
 
 
-def swap_token_sithswap(account, amount, from_token, to_token):
+def swap_token_sithswap(account: Starknet, amount, from_token, to_token):
     logger.info(f"[{account._id}][{account.address_original}] Swap using SithSwap")
 
     amount_wei = account.get_swap_amount(from_token, amount)

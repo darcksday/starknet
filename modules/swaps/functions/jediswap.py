@@ -2,6 +2,7 @@ import time
 from loguru import logger
 from config.settings import *
 from helpers.common import get_max_swap_amount_limited_dex
+from helpers.starknet import Starknet
 from modules.swaps.config import *
 
 
@@ -15,7 +16,7 @@ def get_min_amount_out(contract, amount: int, path: list):
     return int(min_amount_out[1] - (min_amount_out[1] / 100 * SLIPPAGE_PCT))
 
 
-def swap_token_jediswap(account, amount, from_token, to_token):
+def swap_token_jediswap(account: Starknet, amount, from_token, to_token):
     logger.info(f"[{account._id}][{account.address_original}] Swap using JediSwap")
 
     contract = account.get_contract(JEDISWAP_CONTRACT, JEDISWAP_ABI)

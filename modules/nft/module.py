@@ -1,7 +1,7 @@
 import random
 
 from termcolor import cprint
-from helpers.factory import run_script
+from helpers.factory import run_script, run_random_function
 from modules.nft.functions.pyramid import nft_pyramid
 from modules.nft.functions.starknet_id import nft_starknet_id
 from modules.nft.functions.starkverse import nft_starkverse
@@ -35,8 +35,12 @@ def interface_nft():
 
             elif option == 5:
                 # chose random nft function
-                rand_val = random.randint(1, 4)
-                run_script(function_by_index(rand_val), "0", [])
+                run_random_function([
+                    nft_starknet_id,
+                    nft_starkverse,
+                    nft_pyramid,
+                    nft_unframed
+                ])
                 break
             else:
                 cprint(f'Wrong action. Please try again.\n', 'red')

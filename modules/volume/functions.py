@@ -25,10 +25,8 @@ from modules.zklend.functions.zklend_repay import zklend_repay_stable
 from modules.zklend.functions.zklend_withdraw import zklend_withdraw
 
 
-def run_one_wallet_volume(wallet, recipient, cex_network):
+def run_one_wallet_volume(account: Starknet, recipient, cex_network):
     csv_name = f'volume_report'
-    account = Starknet(wallet['index'], wallet)
-
     logger.info(f"[{account._id}][{account.address_original}]: Run TX Volume")
 
     rand_pct = ETH_VOLUME_AMOUNT_PER_ACC * 0.03

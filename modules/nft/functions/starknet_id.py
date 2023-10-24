@@ -2,10 +2,12 @@ import random
 from loguru import logger
 from starknet_py.hash.selector import get_selector_from_name
 from starknet_py.net.client_models import Call
+
+from helpers.starknet import Starknet
 from modules.nft.config import STARKNET_ID_CONTRACT
 
 
-def nft_starknet_id(account, amount=0):
+def nft_starknet_id(account: Starknet, amount=0):
     logger.info(f"[{account._id}][{account.address_original}] Mint NFT using StarkNet ID")
 
     mint_starknet_id_call = Call(

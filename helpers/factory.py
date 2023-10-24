@@ -90,6 +90,17 @@ def run_script(method, _amount: str, params=[], specific_prt={}):
             sleeping(MIN_SLEEP, MAX_SLEEP)
 
 
+def run_random_function(functions: list, _amount: str = 0):
+    prt_keys = get_private_keys()
+    for _id, wallet in enumerate(prt_keys):
+        account = Starknet(wallet['index'], wallet)
+        random_func = random.choice(functions)
+        run_script_one(account, random_func, "0", [], random_func.__name__)
+
+        if _id < len(prt_keys) - 1:
+            sleeping(MIN_SLEEP, MAX_SLEEP)
+
+
 def run_random_swap(routes: list, _amount: str, specific_prt=None):
     if SCHEDULE_TIME:
         wait_schedule(SCHEDULE_TIME)

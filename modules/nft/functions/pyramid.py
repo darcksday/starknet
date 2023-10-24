@@ -1,6 +1,7 @@
 import random
 from loguru import logger
 from common import TOKEN_ADDRESS
+from helpers.starknet import Starknet
 from modules.nft.config import PYRAMID_CONTRACT, PYRAMID_ABI
 
 
@@ -9,7 +10,7 @@ def get_mint_cost(contract):
     return fee.cost
 
 
-def nft_pyramid(account, amount=0):
+def nft_pyramid(account: Starknet, amount=0):
     logger.info(f"[{account._id}][{account.address_original}] Mint NFT using Pyramid")
 
     contract = account.get_contract(PYRAMID_CONTRACT, PYRAMID_ABI)

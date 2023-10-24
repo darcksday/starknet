@@ -5,6 +5,7 @@ from starknet_py.net.client_models import Call
 from config.settings import *
 from config.settings import USE_REF
 from helpers.common import get_random_proxy
+from helpers.starknet import Starknet
 from modules.swaps.config import AVNU_CONTRACT
 
 
@@ -46,7 +47,7 @@ def build_transaction(quote_id: str, recipient: int, slippage: float):
     return response_data
 
 
-def swap_token_avnu(account, amount, from_token, to_token):
+def swap_token_avnu(account: Starknet, amount, from_token, to_token):
     logger.info(f"[{account._id}][{account.address_original}] Swap using AVNU")
 
     amount_wei = account.get_swap_amount(from_token, amount)

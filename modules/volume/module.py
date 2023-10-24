@@ -3,6 +3,7 @@ from termcolor import cprint
 from config.settings import MIN_SLEEP, MAX_SLEEP
 from helpers.cli import sleeping
 from helpers.common import get_private_keys_recipients
+from helpers.starknet import Starknet
 from modules.exchange_withdraw.functions import find_starknet_network
 from modules.volume.functions import run_one_wallet_volume
 
@@ -20,7 +21,8 @@ def run_volume_wallet_by_wallet():
 
     try:
         for _id, wallet in enumerate(wallet_list):
-            run_one_wallet_volume(wallet, wallet['recipient'], cex_network)
+            account = Starknet(wallet['index'], wallet)
+            run_one_wallet_volume(account, wallet['recipient'], cex_network)
 
             if _id < len(wallet_list) - 1:
                 sleeping(MIN_SLEEP, MAX_SLEEP)

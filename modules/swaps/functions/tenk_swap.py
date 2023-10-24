@@ -2,6 +2,7 @@ import time
 from loguru import logger
 from config.settings import *
 from helpers.common import get_max_swap_amount_limited_dex
+from helpers.starknet import Starknet
 from modules.swaps.config import STARKSWAP_CONTRACT, STARKSWAP_ABI
 
 
@@ -15,7 +16,7 @@ def get_min_amount_out(contract, amount: int, slippage: float, path: list):
     return int(min_amount_out[1] - (min_amount_out[1] / 100 * slippage))
 
 
-def swap_token_10kswap(account, amount, from_token, to_token):
+def swap_token_10kswap(account: Starknet, amount, from_token, to_token):
     logger.info(f"[{account._id}][{account.address_original}] Swap using 10kSwap")
 
     path = [from_token, to_token]
