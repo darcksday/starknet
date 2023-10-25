@@ -6,16 +6,18 @@ and enables various network operations.
 
 Documentation: https://starknet-aio.gitbook.io/starknet-aio/
 
-
 ## Requirements
 
 ```
 1. Python 3.10+
 2. WSL2 for Windows to run python.
-3. Registered and activated starknet wallets.
+3. Registered and activated starknet wallets (braavos or argent).
 ```
 
-You can use Braavos or ArgentX wallets.
+### Windows
+
+For windows use WSL2: https://www.youtube.com/watch?v=Yq3YeLYYGNo
+Install python on WSL2: https://www.cherryservers.com/blog/install-python-on-ubuntu
 
 ### Features:
 
@@ -50,15 +52,15 @@ You can use Braavos or ArgentX wallets.
     - ROUTE: Deposit ETH > Enable collateral > Borrow random token > Repay token > Withdraw ETH
 - MULTIPLE Functions: make one or multiple random transactions.
 - VOLUME: increase wallet tx volumes. Process step-by-step:
-  Script withdraw ETH from OKX to your StarkNet wallet (amount include randomisation), then use zkLend to provide ETH as collateral and borrow USDC,
+  Script withdraw ETH from OKX to your StarkNet wallet (amount include randomisation), then use zkLend to provide ETH as collateral and
+  borrow USDC,
   proceed to execute multiple USDC/USDT swaps on AVNU/SithSwap (the number of swaps can be configured in config/settings.py).
   Before each swap step there is 50% chance to call random function to build unique route.
-  Then we repay the borrowed USDC (script can buy some USDC to fully cover the borrowed amount - it makes a swap in a random DEX) 
+  Then we repay the borrowed USDC (script can buy some USDC to fully cover the borrowed amount - it makes a swap in a random DEX)
   and withdraw the locked ETH from zkLend. The final step is to return the ETH to OKX,
   you can use OKX sub-accounts, script automatically move ETH to your main account and repeat this process for next wallet.
 
 **IMPORTANT: Use OKX sub-accounts for volume and transfers to OKX, don't mix your wallets!**
-
 
 ## Installation
 
