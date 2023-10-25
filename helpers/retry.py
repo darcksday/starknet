@@ -1,6 +1,6 @@
 import time
 
-MAX_RETRIES = 3
+MAX_RETRIES = 5
 
 
 def retry(func):

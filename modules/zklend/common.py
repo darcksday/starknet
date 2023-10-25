@@ -9,7 +9,7 @@ def get_deposit_amount(account, token: str = None, retry=0):
         )
         return amount_data.balance
     except Exception as error:
-        if retry > 3:
+        if retry > 5:
             raise Exception(f"Error: {error}. max retry reached")
 
         time.sleep(10)

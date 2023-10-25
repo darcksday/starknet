@@ -23,7 +23,7 @@ def ocean_request(params, retry=0):
         if 'transaction' in response and response['msg'] == 'ok':
             return response
 
-    if retry < 3:
+    if retry < 5:
         cprint(f'Error: status code {response_req.status_code}, retry...', 'red')
         time.sleep(1)
         return ocean_request(params, retry + 1)

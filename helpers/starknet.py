@@ -132,7 +132,7 @@ class Starknet:
             self.account.client.wait_for_tx_sync(tx_hash, check_interval=10)
             logger.success(f"Transaction [{self._id}][{hex(self.address)}] SUCCESS!")
         except Exception as e:
-            if retry < 3:
+            if retry < 5:
                 time.sleep(5)
                 self.wait_until_tx_finished(tx_hash, retry + 1)
             else:
