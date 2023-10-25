@@ -48,23 +48,23 @@ class Web3Account:
 
         return tx_hash
 
-    def wait_until_tx_finished(self, tx_hash: HexBytes, max_wait_time=180):
+    def wait_until_tx_finished(self, tx_hash, max_wait_time=180):
         start_time = time.time()
         while True:
             try:
                 receipts = self.w3.eth.get_transaction_receipt(tx_hash)
                 status = receipts.get("status")
                 if status == 1:
-                    logger.success(f"[{self._id}][{self.address}] {self.explorer}{tx_hash.hex()} successfully!")
+                    logger.success(f"[{self._id}][{self.address}] {self.explorer}/{tx_hash} successfully!")
                     return True
                 elif status is None:
                     time.sleep(1)
                 else:
-                    logger.error(f"[{self._id}][{self.address}] {self.explorer}{tx_hash.hex()} transaction failed!")
+                    logger.error(f"[{self._id}][{self.address}] {self.explorer}/{tx_hash} transaction failed!")
                     return False
             except TransactionNotFound:
                 if time.time() - start_time > max_wait_time:
-                    logger.error(f'TX FAILED: {tx_hash.hex()}')
+                    logger.error(f'TX FAILED: {tx_hash}')
                     return False
                 time.sleep(1)
 

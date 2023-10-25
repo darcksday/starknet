@@ -29,13 +29,13 @@ def orbiter_bridge_to_starknet(account: Starknet, amount: float, from_chain: str
     elif amount_wei + ORBITER_NETWORKS["starknet"] >= int_to_wei(web3_balance, 18):
         logger.error(f"Wrong amount ETH, not enough balance | {amount} ETH")
     else:
-        contract = web3_account.get_contract(ORBITER_CONTRACTS["bridge"], ORBITER_DEPOSIT_ABI)
+        contract = web3_account.get_contract(ORBITER_DEPOSIT_CONTRACTS[from_chain], ORBITER_DEPOSIT_ABI)
         starknet_wallet = account.address_original
         starknet_wallet = f'030{starknet_wallet[3:]}' if starknet_wallet[:3] == '0x0' else f'030{starknet_wallet[2:]}'
         recipient = bytes.fromhex(starknet_wallet)
 
         contract_txn = contract.functions.transfer(
-            web3_account.w3.to_checksum_address(ORBITER_DEPOSIT_CONTRACTS[from_chain]),
+            web3_account.w3.to_checksum_address(ORBITER_DEPOSIT_ROUTER),
             recipient
         ).build_transaction(
             {
@@ -51,13 +51,12 @@ def orbiter_bridge_to_starknet(account: Starknet, amount: float, from_chain: str
         contract_txn = web3_account.add_gas_price(contract_txn)
         contract_txn = web3_account.add_gas_limit(contract_txn)
         txn_hash = web3_account.sign_tx(contract_txn)
-
         web3_account.wait_until_tx_finished(txn_hash)
 
 
 def orbiter_bridge_from_starknet(account: Starknet, amount, to_chain):
     web3_account = Web3Account(account._id, account.web3_private_key, to_chain)
-    bridge_contract = account.get_contract(ORBITER_CONTRACTS["withdraw"], ORBITER_WITHDRAW_ABI)
+    bridge_contract = account.get_contract(ORBITER_CONTRACT_WITHDRAW, ORBITER_WITHDRAW_ABI)
     approve_contract = account.get_contract(TOKEN_ADDRESS["ETH"])
 
     balance = account.account.get_balance_sync()
@@ -73,7 +72,7 @@ def orbiter_bridge_from_starknet(account: Starknet, amount, to_chain):
     elif amount_wei + ORBITER_NETWORKS["starknet"] >= balance:
         logger.error(f"Wrong amount ETH, not enough balance | {amount} ETH")
     else:
-        approve_call = approve_contract.functions["approve"].prepare(ORBITER_CONTRACTS["withdraw"], 2 ** 128)
+        approve_call = approve_contract.functions["approve"].prepare(ORBITER_CONTRACT_WITHDRAW, 2 ** 128)
         transfer_call = bridge_contract.functions["transferERC20"].prepare(
             TOKEN_ADDRESS["ETH"],
             0x64a24243f2aabae8d2148fa878276e6e6e452e3941b417f3c33b1649ea83e11,
