@@ -108,3 +108,9 @@ To enable this feature, you need to include your sub-accounts' API information i
 
 If you need to transfer ETH from web3 (Arbitrum, Optimism, etc.) to StarkNet,
 add your wallet's private key to the config/wallets.csv file under the "web3_private_key" column.
+
+## Safety rules
+
+1. Don't share your private keys and mnemonic phrases with anyone.
+2. Test new features/protocols with small amounts first.
+3. Update script regularly, we add new features and fix bugs.

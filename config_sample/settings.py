@@ -34,8 +34,9 @@ MIN_BALANCE_ETH = 0.0007
 ETH_VOLUME_AMOUNT_PER_ACC = 2.5
 # How many swap repeats [from, to] we want to do per account
 VOLUME_SWAP_REPEATS = [3, 4]
-# How many ETH we want to leave on wallet when withdraw ETH
-ETH_VOLUME_LEFT_ON_WALLET = 0.0005
+# How many ETH we want to leave on wallet from ETH_VOLUME_AMOUNT_PER_ACC
+# funds need to pay fees & left some amount on wallet to look like a real user
+ETH_VOLUME_LEFT_ON_WALLET = 0.003
 
 # CEX to be used for withdraw
 CEX_DEFAULT = 'okx'

@@ -16,7 +16,10 @@ from modules.zklend.module import interface_zklend
 
 if __name__ == '__main__':
     try:
-        swaps_count = '-'.join(map(str, VOLUME_SWAP_REPEATS))
+        if VOLUME_SWAP_REPEATS[0] == VOLUME_SWAP_REPEATS[1]:
+            swaps_count = VOLUME_SWAP_REPEATS[0]
+        else:
+            swaps_count = '-'.join(map(str, VOLUME_SWAP_REPEATS))
 
         while True:
             cprint(f'Select an action:', 'yellow')

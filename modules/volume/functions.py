@@ -29,19 +29,25 @@ def run_one_wallet_volume(account: Starknet, recipient, cex_network):
     csv_name = f'volume_report'
     logger.info(f"[{account._id}][{account.address_original}]: Run TX Volume")
 
+    if ETH_VOLUME_AMOUNT_PER_ACC <= ETH_VOLUME_LEFT_ON_WALLET:
+        raise Exception(f'Configuration error: ETH_VOLUME_AMOUNT_PER_ACC <= ETH_VOLUME_LEFT_ON_WALLET')
+
     rand_pct = ETH_VOLUME_AMOUNT_PER_ACC * 0.03
-    amount = round(ETH_VOLUME_AMOUNT_PER_ACC - random.uniform(0, rand_pct), 4)
-    logger.info(f'Amount: {amount} ETH')
+    withdraw_amount = round(ETH_VOLUME_AMOUNT_PER_ACC - random.uniform(0, rand_pct), 4)
+    logger.info(f'Amount: {withdraw_amount} ETH')
 
     # ------------------ Withdraw ETH ------------------
 
-    call_exchange_withdraw(account.address_original, cex_network, round(amount + 0.0001, 4), 'ETH', 'okx')
+    call_exchange_withdraw(account.address_original, cex_network, round(withdraw_amount + 0.0001, 4), 'ETH', 'okx')
     sleeping(MIN_SLEEP, MAX_SLEEP)
 
     # --------------- Check wallet balance ---------------
 
-    check_wait_wallet_balance(account, amount, 'ETH')
+    check_wait_wallet_balance(account, withdraw_amount, 'ETH')
     sleeping(MIN_SLEEP, MAX_SLEEP)
+
+    # Use amount without ETH_VOLUME_LEFT_ON_WALLET - left for fees
+    amount = round(withdraw_amount - ETH_VOLUME_LEFT_ON_WALLET, 4)
 
     # --------- zkLend - supply ETH, borrow USDC ----------
 
@@ -114,8 +120,7 @@ def run_one_wallet_volume(account: Starknet, recipient, cex_network):
 
     # ---------------- Withdraw ETH to OKX ----------------
 
-    amount_to_withdraw = round(amount - ETH_VOLUME_LEFT_ON_WALLET, 4)
-    transfer_eth(account, recipient, amount_to_withdraw)
+    transfer_eth(account, recipient, amount)
     sleeping(MIN_SLEEP, MAX_SLEEP)
 
     # ---------------- Check OKX balance ----------------
@@ -124,7 +129,7 @@ def run_one_wallet_volume(account: Starknet, recipient, cex_network):
         logger.info(f"[{account._id}] Check OKX main account balance")
         main_acc_balance = get_okx_token_balance(0)
 
-        if main_acc_balance >= amount_to_withdraw:
+        if main_acc_balance >= amount:
             logger.success(f"[{account._id}] {main_acc_balance} ETH found")
             break
         else:
@@ -133,7 +138,7 @@ def run_one_wallet_volume(account: Starknet, recipient, cex_network):
                     logger.info(f"[{account._id}] Check OKX subAccount {get_okx_sub_account_name(sub_account_num)}")
                     acc_balance = get_okx_token_balance(sub_account_num)
 
-                    if acc_balance >= amount_to_withdraw:
+                    if acc_balance >= amount:
                         logger.success(f"[{account._id}] {acc_balance} ETH found, transfer to OKX main account")
                         okx_account = get_okx_account()
                         okx_account.transfer("ETH", acc_balance, get_okx_sub_account_name(sub_account_num), 'master')
@@ -141,7 +146,7 @@ def run_one_wallet_volume(account: Starknet, recipient, cex_network):
                         break
                     elif acc_balance > 0:
                         logger.info(
-                            f"[{account._id}] Only {acc_balance} ETH found, waiting {amount_to_withdraw} ETH...")
+                            f"[{account._id}] Only {acc_balance} ETH found, waiting {amount} ETH...")
 
         sleeping(int(MIN_SLEEP / 2), int(MAX_SLEEP / 2))
         continue
