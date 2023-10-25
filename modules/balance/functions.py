@@ -16,7 +16,8 @@ def one_wallet_balance(account: Starknet, contract_address=None):
             symbol = token["symbol"]
 
         logger.info(f"[{account._id}][{account.address_original}]: {balance} {symbol}")
+        return balance
 
     except Exception:
         time.sleep(1)
-        one_wallet_balance(account, contract_address)
+        return one_wallet_balance(account, contract_address)

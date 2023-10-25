@@ -6,6 +6,17 @@ and enables various network operations.
 
 Documentation: https://starknet-aio.gitbook.io/starknet-aio/
 
+
+## Requirements
+
+```
+1. Python 3.10+
+2. WSL2 for Windows to run python.
+3. Registered and activated starknet wallets.
+```
+
+You can use Braavos or ArgentX wallets.
+
 ### Features:
 
 - Check balances.
@@ -27,6 +38,7 @@ Documentation: https://starknet-aio.gitbook.io/starknet-aio/
     - Starkverse
     - Pyramid
     - Unframed
+    - StarkStars
     - RANDOM: Call random NFT function
 - ZkLend:
     - Deposit (supply)
@@ -47,14 +59,6 @@ Documentation: https://starknet-aio.gitbook.io/starknet-aio/
 
 **IMPORTANT: Use OKX sub-accounts for volume and transfers to OKX, don't mix your wallets!**
 
-## Requirements
-
-```
-1. Python 3.10+
-2. Registered and activated starknet wallets.
-```
-
-You can use Braavos or ArgentX wallets.
 
 ## Installation
 

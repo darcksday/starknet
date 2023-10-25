@@ -9,6 +9,10 @@ def interface_check_balance():
     contract_address = print_input_contract_address()
     logger.info("Check Balances")
 
+    total = 0
     for _id, wallet in enumerate(get_private_keys()):
         account = Starknet(_id, wallet)
-        one_wallet_balance(account, contract_address)
+        balance = one_wallet_balance(account, contract_address)
+        total += float(balance)
+
+    logger.info(f"TOTAL: {total}")
