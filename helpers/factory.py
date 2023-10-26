@@ -68,14 +68,14 @@ def call_function(
             return call_function(account, method, _amount, params, csv, retry + 1)
 
 
-def run_script(method, _amount: str, params=[], specific_prt={}):
+def run_script(method, _amount: str, params=[]):
     if SCHEDULE_TIME:
         wait_schedule(SCHEDULE_TIME)
 
     csv_name = method.__name__
     start_csv(csv_name)
 
-    prt_keys = [specific_prt] if specific_prt else get_private_keys()
+    prt_keys = get_private_keys()
 
     for _id, wallet in enumerate(prt_keys):
         account = Starknet(wallet['index'], wallet)
@@ -101,7 +101,7 @@ def run_random_function(functions: list, _amount: str = 0):
             sleeping(MIN_SLEEP, MAX_SLEEP)
 
 
-def run_random_swap(routes: list, _amount: str, specific_prt=None):
+def run_random_swap(routes: dict, _amount: str):
     if SCHEDULE_TIME:
         wait_schedule(SCHEDULE_TIME)
 
@@ -110,44 +110,13 @@ def run_random_swap(routes: list, _amount: str, specific_prt=None):
     start_csv(csv_name_1)
     start_csv(csv_name_2)
 
-    prt_keys = [specific_prt] if specific_prt else get_private_keys()
-
+    prt_keys = get_private_keys()
     for _id, wallet in enumerate(prt_keys):
-        random_dex = random.choice(list(routes.items()))
-        random_dex = random_dex[1]
-        random_token = random.choice(list(random_dex['tokens']))
-        method = random_dex['function']
-
-        additional_params = []
-        if 'params' in random_dex:
-            additional_params = random_dex['params']
-
-        params = additional_params + [TOKEN_ADDRESS['ETH'], random_token]
-        reverted_params = additional_params + [random_token, TOKEN_ADDRESS['ETH']]
-
-        logger.info(f'Step 1: Sell ETH')
         account = Starknet(wallet['index'], wallet)
-        step1_success = call_function(
-            account,
-            method,
-            _amount,
-            params,
-            csv_name_1
-        )
+        run_random_swap_one(account, routes, _amount, csv_name_1, csv_name_2)
 
-        if step1_success:
+        if _id < len(prt_keys) - 1:
             sleeping(MIN_SLEEP, MAX_SLEEP)
-            logger.info(f'Step 2: Buy Back ETH')
-
-            call_function(
-                account,
-                method,
-                "0",
-                reverted_params,
-                csv_name_2
-            )
-            if _id < len(prt_keys) - 1:
-                sleeping(MIN_SLEEP, MAX_SLEEP)
 
 
 def run_multiple(functions: list):
@@ -201,3 +170,38 @@ def run_script_one(account: Starknet, method, _amount: str, params=[], csv_name=
         params,
         csv_name
     )
+
+
+def run_random_swap_one(account: Starknet, routes, _amount: str, csv_name_1, csv_name_2):
+    random_dex = random.choice(list(routes.items()))
+    random_dex = random_dex[1]
+    random_token = random.choice(list(random_dex['tokens']))
+    method = random_dex['function']
+
+    additional_params = []
+    if 'params' in random_dex:
+        additional_params = random_dex['params']
+
+    params = additional_params + [TOKEN_ADDRESS['ETH'], random_token]
+    reverted_params = additional_params + [random_token, TOKEN_ADDRESS['ETH']]
+
+    logger.info(f'Step 1: Sell ETH')
+    step1_success = call_function(
+        account,
+        method,
+        _amount,
+        params,
+        csv_name_1
+    )
+
+    if step1_success:
+        sleeping(MIN_SLEEP, MAX_SLEEP)
+        logger.info(f'Step 2: Buy Back ETH')
+
+        call_function(
+            account,
+            method,
+            "0",
+            reverted_params,
+            csv_name_2
+        )

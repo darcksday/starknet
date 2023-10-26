@@ -7,10 +7,10 @@ from modules.dmail.module import dmail_send_email
 from modules.exchange_withdraw.module import interface_exchange_withdraw
 from modules.nft.module import interface_nft
 from modules.orbiter_bridge.module import interface_orbiter_bridge
-from modules.swaps.functions.open_ocean import swap_token_open_ocean
 from modules.swaps.module import interface_swaps
 from modules.exchange_deposit.module import interface_transfer_to_exchange
 from modules.tx_count.module import interface_tx_count
+from modules.unused_contracts.module import interface_unused_contracts
 from modules.volume.module import run_volume_wallet_by_wallet
 from modules.zklend.module import interface_zklend
 
@@ -39,6 +39,7 @@ if __name__ == '__main__':
                 f'12. Volume ({ETH_VOLUME_AMOUNT_PER_ACC} ETH): wallet by wallet / OKX > ZkLend > AVNU/SithSwap ({swaps_count} swaps) > ZkLend > OKX',
                 'yellow'
             )
+            cprint(f'13. Find and run unused contract for wallet', 'yellow')
 
             try:
                 option = int(input("> "))
@@ -96,6 +97,10 @@ if __name__ == '__main__':
 
             elif option == 12:
                 run_volume_wallet_by_wallet()
+                break
+
+            elif option == 13:
+                interface_unused_contracts()
                 break
 
             else:

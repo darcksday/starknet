@@ -27,7 +27,7 @@ MAX_SLEEP = 40
 SLIPPAGE_PCT = 1
 
 # Minimal wallet balance (stay when we chose to swap all)
-MIN_BALANCE_ETH = 0.0007
+MIN_BALANCE_ETH = 0.001
 
 # Volume module settings
 # How much ETH we want to swap (almost all ETH you have on OKX minus some ETH for fees)
