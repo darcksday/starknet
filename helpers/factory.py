@@ -68,14 +68,13 @@ def call_function(
             return call_function(account, method, _amount, params, csv, retry + 1)
 
 
-def run_script(method, _amount: str, params=[]):
+def run_script(method, _amount: str, params=[], specific_prt={}):
     if SCHEDULE_TIME:
         wait_schedule(SCHEDULE_TIME)
 
     csv_name = method.__name__
     start_csv(csv_name)
-
-    prt_keys = get_private_keys()
+    prt_keys = [specific_prt] if specific_prt else get_private_keys()
 
     for _id, wallet in enumerate(prt_keys):
         account = Starknet(wallet['index'], wallet)
@@ -101,7 +100,7 @@ def run_random_function(functions: list, _amount: str = 0):
             sleeping(MIN_SLEEP, MAX_SLEEP)
 
 
-def run_random_swap(routes: dict, _amount: str):
+def run_random_swap(routes: dict, _amount: str, specific_prt=None):
     if SCHEDULE_TIME:
         wait_schedule(SCHEDULE_TIME)
 
@@ -110,7 +109,8 @@ def run_random_swap(routes: dict, _amount: str):
     start_csv(csv_name_1)
     start_csv(csv_name_2)
 
-    prt_keys = get_private_keys()
+    prt_keys = [specific_prt] if specific_prt else get_private_keys()
+
     for _id, wallet in enumerate(prt_keys):
         account = Starknet(wallet['index'], wallet)
         run_random_swap_one(account, routes, _amount, csv_name_1, csv_name_2)
