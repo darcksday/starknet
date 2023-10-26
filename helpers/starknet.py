@@ -95,6 +95,10 @@ class Starknet:
         return contract
 
     @retry
+    def get_eth_balance(self) -> int:
+        return self.account.get_balance_sync(TOKEN_ADDRESS["ETH"])
+
+    @retry
     def get_balance(self, contract_address: int) -> dict:
         contract = self.get_contract(contract_address)
         symbol_data = contract.functions["symbol"].call_sync()

@@ -7,7 +7,7 @@ from helpers.starknet import Starknet
 def one_wallet_balance(account: Starknet, contract_address=None):
     try:
         if contract_address == TOKEN_ADDRESS["ETH"]:
-            balance_wei = account.account.get_balance_sync()
+            balance_wei = account.get_eth_balance()
             balance = "{:8.6f}".format(balance_wei / 10 ** 18)
             symbol = "ETH"
         else:

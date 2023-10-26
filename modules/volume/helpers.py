@@ -16,10 +16,11 @@ config = dotenv_values("config/.env")
 @retry
 def check_wait_wallet_balance(account: Starknet, amount, token_symbol, contract_address=None):
     while True:
-        logger.info(f"[{account._id}][{account.address_original}] Check wallet Balance: wait at least {amount} {token_symbol}")
+        logger.info(
+            f"[{account._id}][{account.address_original}] Check wallet Balance: wait at least {amount} {token_symbol}")
 
         if contract_address is None:
-            balance_wei = account.account.get_balance_sync()
+            balance_wei = account.get_eth_balance()
             token_decimals = 18
         else:
             token = account.get_balance(contract_address)

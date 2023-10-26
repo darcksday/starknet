@@ -1,3 +1,4 @@
+import time
 from datetime import datetime
 from loguru import logger
 from common import TOKEN_ADDRESS
@@ -9,16 +10,25 @@ from helpers.starknet import Starknet
 
 def transfer_eth(account: Starknet, recipient, amount: float):
     min_transaction_amount = 0.00001
-    balance_wei = account.account.get_balance_sync(TOKEN_ADDRESS["ETH"])
 
-    if not amount:
-        tx_fee = int_to_wei(0.00007)
-        amount_wei = balance_wei - int_to_wei(MIN_BALANCE_ETH) - tx_fee
-    else:
-        amount_wei = int_to_wei(amount)
-        if amount_wei + int_to_wei(MIN_BALANCE_ETH) > balance_wei:
+    retry = 0
+    while True:
+        if retry > 3:
             logger.error(f"Insufficient funds for transfer, skip")
             return
+        retry += 1
+
+        balance_wei = account.get_eth_balance()
+        if not amount:
+            tx_fee = int_to_wei(0.00007)
+            amount_wei = balance_wei - int_to_wei(MIN_BALANCE_ETH) - tx_fee
+            break
+        else:
+            amount_wei = int_to_wei(amount)
+            if amount_wei + int_to_wei(MIN_BALANCE_ETH) > balance_wei:
+                time.sleep(5)
+                continue
+            break
 
     logger.info(f"[{account._id}][{account.address_original}] Transfer {wei_to_int(amount_wei)} ETH to {recipient}")
 
