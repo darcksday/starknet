@@ -1,5 +1,6 @@
 from helpers.factory import run_random_swap
 from modules.dmail.module import dmail_send_email
+from modules.nft.functions.flex import nft_flex
 from modules.nft.functions.pyramid import nft_pyramid
 from modules.nft.functions.starknet_id import nft_starknet_id
 from modules.nft.functions.starkverse import nft_starkverse
@@ -14,6 +15,7 @@ nft_pyramid
 nft_starknet_id
 nft_starkverse
 nft_unframed
+nft_flex
 run_random_swap
 dmail_send_email
 zklend_collateral_enable
@@ -37,6 +39,7 @@ USE_MULTIPLE_FUNCTIONS = [
     nft_starknet_id,
     nft_starkverse,
     nft_unframed,
+    nft_flex,
     [
         zklend_deposit,
         zklend_withdraw,

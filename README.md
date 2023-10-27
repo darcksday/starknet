@@ -40,6 +40,7 @@ Install python on WSL2: https://www.cherryservers.com/blog/install-python-on-ubu
     - Starkverse
     - Pyramid
     - Unframed
+    - Flex
     - StarkStars
     - RANDOM: Call random NFT function
 - ZkLend:
@@ -59,6 +60,7 @@ Install python on WSL2: https://www.cherryservers.com/blog/install-python-on-ubu
   Then we repay the borrowed USDC (script can buy some USDC to fully cover the borrowed amount - it makes a swap in a random DEX)
   and withdraw the locked ETH from zkLend. The final step is to return the ETH to OKX,
   you can use OKX sub-accounts, script automatically move ETH to your main account and repeat this process for next wallet.
+- Unused Contracts: Find and run unused contract for wallet.
 
 **IMPORTANT: Use OKX sub-accounts for volume and transfers to OKX, don't mix your wallets!**
 
