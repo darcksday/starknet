@@ -13,7 +13,7 @@ ZKLEND_CONCTRACTS = {
 
 ZKLEND_MAX_BORROW = {
     # "ETH": 0.75,
-    "USDC": 0.75,
-    "DAI": 0.7,
-    "USDT": 0.7
+    "USDC": 0.65,
+    "DAI": 0.6,
+    "USDT": 0.6
 }
