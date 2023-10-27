@@ -22,7 +22,7 @@ ALL_CONTRACT_FUNCTIONS = {
     STARKVERSE_CONTRACT: nft_starkverse,
     PYRAMID_CONTRACT: nft_pyramid,
     UNFRAMED_CONTRACT: nft_unframed,
-    FLEX_CONTRACT: [nft_flex],
+    FLEX_CONTRACT: nft_flex,
     DMAIL_CONTRACT: dmail_send_email,
     JEDISWAP_CONTRACT: swap_token_jediswap,
     MYSWAP_CONTRACT: swap_token_myswap,
