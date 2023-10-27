@@ -124,21 +124,27 @@ class Starknet:
         )
         return transaction
 
-    def send_transaction(self, transaction: Invoke):
-        transaction_response = self.account.client.send_transaction_sync(transaction)
-        return transaction_response
+    def send_transaction(self, transaction: Invoke, _retry=0):
+        try:
+            return self.account.client.send_transaction_sync(transaction)
+        except Exception as error:
+            if ('502 Server Error' in str(error) or 'Server disconnected' in str(error)) and _retry < 3:
+                time.sleep(10)
+                return self.send_transaction(transaction, _retry + 1)
+            else:
+                raise Exception(error)
 
-    def wait_until_tx_finished(self, tx_hash: int, retry=0):
-        if retry == 0:
+    def wait_until_tx_finished(self, tx_hash: int, _retry=0):
+        if _retry == 0:
             logger.info(f"Transaction: {self.explorer}{hex(tx_hash)}")
 
         try:
             self.account.client.wait_for_tx_sync(tx_hash, check_interval=10)
             logger.success(f"Transaction [{self._id}][{hex(self.address)}] SUCCESS!")
         except Exception as e:
-            if retry < 5:
+            if _retry < 5:
                 time.sleep(5)
-                self.wait_until_tx_finished(tx_hash, retry + 1)
+                self.wait_until_tx_finished(tx_hash, _retry + 1)
             else:
                 logger.error(f"[{self._id}][{hex(self.address)}] Error, max read retries reached.")
                 raise Exception(str(e))
