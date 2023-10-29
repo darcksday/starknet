@@ -25,7 +25,7 @@ def run_volume_wallet_by_wallet():
             run_one_wallet_volume(account, wallet['recipient'], cex_network)
 
             if _id < len(wallet_list) - 1:
-                sleeping(MIN_SLEEP * 2, MAX_SLEEP * 2)
+                sleeping(100, 120)
 
     except KeyboardInterrupt:
         cprint(f' Exit, bye bye\n', 'red')

@@ -1,9 +1,6 @@
-import random
-
-from web3 import Web3
-
-from common import RPC
+from starknet_py.net.gateway_client import GatewayClient
 from config.settings import CHECK_GWEI, MAX_GWEI, MIN_SLEEP, MAX_SLEEP
+from web3 import Web3
 from loguru import logger
 
 from helpers.cli import sleeping
@@ -11,11 +8,12 @@ from helpers.cli import sleeping
 
 def get_gas():
     try:
-        w3 = Web3(Web3.HTTPProvider(random.choice(RPC["ethereum"]["rpc"])))
-        gas_price = w3.eth.gas_price
-        return w3.from_wei(gas_price, 'gwei')
+        client = GatewayClient("mainnet")
+        block_data = client.get_block_sync("latest")
+        gas = Web3.from_wei(block_data.gas_price, "gwei")
+        return gas
     except Exception as error:
-        logger.error(error)
+        logger.error(f'Read gas error: {str(error)}')
 
 
 def wait_gas():
