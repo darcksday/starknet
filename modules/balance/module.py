@@ -11,7 +11,7 @@ def interface_check_balance():
 
     total = 0
     for _id, wallet in enumerate(get_private_keys()):
-        account = Starknet(_id, wallet)
+        account = Starknet(wallet["index"], wallet)
         balance = one_wallet_balance(account, contract_address)
         total += float(balance)
 

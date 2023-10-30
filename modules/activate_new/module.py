@@ -2,6 +2,8 @@ from loguru import logger
 from starknet_py.net.models import StarknetChainId
 
 from common import ARGENTX_IMPLEMENTATION_CLASS_HASH_NEW
+from config.settings import MIN_SLEEP, MAX_SLEEP
+from helpers.cli import sleeping
 from helpers.common import get_private_keys
 from helpers.starknet import Starknet
 
@@ -9,8 +11,9 @@ from helpers.starknet import Starknet
 def interface_deploy_argent_wallet():
     logger.info("Deploy new argent wallets")
 
-    for _id, wallet in enumerate(get_private_keys()):
-        account = Starknet(_id, wallet)
+    wallet_list = get_private_keys()
+    for _id, wallet in enumerate(wallet_list):
+        account = Starknet(wallet["index"], wallet)
         if not account.address_original:
             logger.error(f'Error: No wallet address provided')
             continue
@@ -28,8 +31,11 @@ def interface_deploy_argent_wallet():
                 constructor_calldata=[account.key_pair.public_key, 0],
                 auto_estimate=True
             )
-            print('transaction', transaction)
-            account.wait_until_tx_finished(transaction.transaction_hash)
+            account.wait_until_tx_finished(transaction.hash)
+
+            if _id < len(wallet_list) - 1:
+                sleeping(MIN_SLEEP, MAX_SLEEP)
+
         except Exception as e:
             logger.error(f'Error: {e}')
             continue

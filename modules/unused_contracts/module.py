@@ -8,7 +8,7 @@ from modules.unused_contracts.functions import run_random_unused_function
 def interface_unused_contracts():
     prt_keys = get_private_keys()
     for _id, wallet in enumerate(prt_keys):
-        account = Starknet(_id, wallet)
+        account = Starknet(wallet["index"], wallet)
         run_random_unused_function(account)
 
         if _id < len(prt_keys) - 1:

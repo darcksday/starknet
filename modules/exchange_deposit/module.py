@@ -17,7 +17,7 @@ def interface_transfer_to_exchange():
         raise SystemExit
 
     for _id, wallet in enumerate(keys_with_recipients):
-        account = Starknet(_id, wallet)
+        account = Starknet(wallet["index"], wallet)
         amount = get_amount_in_range(amount_str)
 
         transfer_eth(account, wallet['recipient'], amount)
