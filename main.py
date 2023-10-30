@@ -41,7 +41,7 @@ if __name__ == '__main__':
                 'yellow'
             )
             cprint(f'13. Find and run unused contract for wallet', 'yellow')
-            cprint(f'14. Activate new argent wallets', 'yellow')
+            cprint(f'14. Deploy new argent wallets', 'yellow')
 
             try:
                 option = int(input("> "))
