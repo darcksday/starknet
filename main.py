@@ -2,6 +2,7 @@ from config.settings import ETH_VOLUME_AMOUNT_PER_ACC, VOLUME_SWAP_REPEATS
 from helpers.cli import *
 from config.routes import USE_MULTIPLE_FUNCTIONS
 from helpers.factory import run_script, run_multiple
+from modules.activate_new.module import interface_deploy_argent_wallet
 from modules.balance.module import interface_check_balance
 from modules.dmail.module import dmail_send_email
 from modules.exchange_withdraw.module import interface_exchange_withdraw
@@ -40,6 +41,7 @@ if __name__ == '__main__':
                 'yellow'
             )
             cprint(f'13. Find and run unused contract for wallet', 'yellow')
+            cprint(f'14. Activate new argent wallets', 'yellow')
 
             try:
                 option = int(input("> "))
@@ -101,6 +103,10 @@ if __name__ == '__main__':
 
             elif option == 13:
                 interface_unused_contracts()
+                break
+
+            elif option == 14:
+                interface_deploy_argent_wallet()
                 break
 
             else:
