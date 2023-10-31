@@ -4,16 +4,15 @@ from web3 import Web3
 from loguru import logger
 
 from helpers.cli import sleeping
+from helpers.retry import retry
 
 
+@retry
 def get_gas():
-    try:
-        client = GatewayClient("mainnet")
-        block_data = client.get_block_sync("latest")
-        gas = Web3.from_wei(block_data.gas_price, "gwei")
-        return gas
-    except Exception as error:
-        logger.error(f'Read gas error: {str(error)}')
+    client = GatewayClient("mainnet")
+    block_data = client.get_block_sync("latest")
+    gas = Web3.from_wei(block_data.gas_price, "gwei")
+    return gas
 
 
 def wait_gas():
