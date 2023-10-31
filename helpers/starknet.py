@@ -128,7 +128,7 @@ class Starknet:
         try:
             return self.account.client.send_transaction_sync(transaction)
         except Exception as error:
-            if ('502 Server Error' in str(error) or 'Server disconnected' in str(error)) and _retry < 3:
+            if ('Server Error' in str(error) or 'Server disconnected' in str(error)) and _retry < 3:
                 time.sleep(10)
                 return self.send_transaction(transaction, _retry + 1)
             else:

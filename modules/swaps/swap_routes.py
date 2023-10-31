@@ -34,14 +34,14 @@ SWAP_ROUTES = {
         },
         'function': swap_token_myswap
     },
-    'swap_token_protoss': {
-        'tokens': {
-            TOKEN_ADDRESS['USDC'],
-            TOKEN_ADDRESS['DAI'],
-            TOKEN_ADDRESS['USDT']
-        },
-        'function': swap_token_protoss
-    },
+    # 'swap_token_protoss': {
+    #     'tokens': {
+    #         TOKEN_ADDRESS['USDC'],
+    #         TOKEN_ADDRESS['DAI'],
+    #         TOKEN_ADDRESS['USDT']
+    #     },
+    #     'function': swap_token_protoss
+    # },
     'swap_token_sithswap': {
         'tokens': {
             TOKEN_ADDRESS['USDC'],
