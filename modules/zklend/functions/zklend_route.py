@@ -3,9 +3,9 @@ import time
 
 from loguru import logger
 from common import TOKEN_ADDRESS, ZETH_TOKEN_ADDRESS
-from config.settings import MIN_SLEEP, MAX_SLEEP, MIN_BALANCE_ETH
+from config.settings import MIN_SLEEP, MAX_SLEEP
 from helpers.cli import sleeping
-from helpers.common import wei_to_int
+from helpers.common import wei_to_int, get_min_balance_eth
 from helpers.factory import run_script_one
 from helpers.starknet import Starknet
 from modules.volume.helpers import check_wait_wallet_balance
@@ -19,7 +19,7 @@ from modules.zklend.functions.zklend_withdraw import zklend_withdraw
 def zklend_route(account: Starknet, amount: float):
     eth_balance = wei_to_int(account.get_eth_balance())
 
-    max_eth_to_use = eth_balance - 0.0012 - MIN_BALANCE_ETH
+    max_eth_to_use = eth_balance - 0.0012 - get_min_balance_eth()
     if max_eth_to_use <= 0:
         logger.error(
             f"[{account._id}][{account.address_original}] Not enough ETH, balance: {eth_balance} ETH, need: {max_eth_to_use}")

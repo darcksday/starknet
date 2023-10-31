@@ -6,6 +6,7 @@ import json
 from loguru import logger
 
 from helpers.cli import sleeping
+from helpers.common import get_random_proxy
 from helpers.csv_helper import start_csv
 from helpers.factory import run_script, run_script_one, run_random_swap, run_random_swap_one
 from helpers.retry import retry
@@ -55,7 +56,11 @@ def send_graphql_request(address, cursor):
         "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36"
     }
 
-    response = requests.post(url, json={"query": body, "variables": variables}, headers=headers)
+    proxies = get_random_proxy()
+    response = requests.post(url, json={
+        "query": body,
+        "variables": variables
+    }, headers=headers, proxies=proxies, timeout=40)
     if response.status_code == 200:
         my_json = response.content.decode('utf8').replace("'", '"')
         data = json.loads(my_json)
@@ -63,7 +68,7 @@ def send_graphql_request(address, cursor):
             transactions = data['data'].get('transactions')
             return transactions['pageInfo'].get('endCursor'), transactions.get('edges')
     else:
-        print('Request Error, response.status_code: ', response.status_code)
+        logger.error('Request Error, response.status_code: ', response.status_code)
 
 
 def get_used_contracts_list(address):

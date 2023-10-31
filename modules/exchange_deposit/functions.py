@@ -2,8 +2,7 @@ import time
 from datetime import datetime
 from loguru import logger
 from common import TOKEN_ADDRESS
-from config.settings import *
-from helpers.common import int_to_wei, wei_to_int
+from helpers.common import int_to_wei, wei_to_int, get_min_balance_eth
 from helpers.csv_helper import write_csv_success, start_csv
 from helpers.starknet import Starknet
 
@@ -21,11 +20,11 @@ def transfer_eth(account: Starknet, recipient, amount: float):
         balance_wei = account.get_eth_balance()
         if not amount:
             tx_fee = int_to_wei(0.00007)
-            amount_wei = balance_wei - int_to_wei(MIN_BALANCE_ETH) - tx_fee
+            amount_wei = balance_wei - int_to_wei(get_min_balance_eth()) - tx_fee
             break
         else:
             amount_wei = int_to_wei(amount)
-            if amount_wei + int_to_wei(MIN_BALANCE_ETH) > balance_wei:
+            if amount_wei + int_to_wei(get_min_balance_eth()) > balance_wei:
                 time.sleep(5)
                 continue
             break

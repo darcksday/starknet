@@ -45,7 +45,6 @@ def interface_nft():
                     nft_pyramid,
                     nft_unframed,
                     nft_flex,
-                    nft_starkstars,
                 ])
                 break
             else:

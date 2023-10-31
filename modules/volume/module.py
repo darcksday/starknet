@@ -1,6 +1,5 @@
 from loguru import logger
 from termcolor import cprint
-from config.settings import MIN_SLEEP, MAX_SLEEP
 from helpers.cli import sleeping
 from helpers.common import get_private_keys_recipients
 from helpers.starknet import Starknet
