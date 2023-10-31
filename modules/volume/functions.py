@@ -7,6 +7,7 @@ from config.settings import *
 from helpers.cli import sleeping
 from helpers.factory import run_script_one
 from helpers.starknet import Starknet
+from modules.activate_new.module import activate_wallet
 from modules.dmail.module import dmail_send_email
 from modules.exchange_withdraw.config import CEX_KEYS
 from modules.exchange_withdraw.functions import call_exchange_withdraw
@@ -48,6 +49,11 @@ def run_one_wallet_volume(account: Starknet, recipient, cex_network):
 
     # Use amount without ETH_VOLUME_LEFT_ON_WALLET - left for fees
     amount = round(withdraw_amount - ETH_VOLUME_LEFT_ON_WALLET, 4)
+
+    #---------------- Activate wallet ---------------------
+    if DEPLOY_WALLET:
+        activate_wallet(account)
+
 
     # --------- zkLend - supply ETH, borrow USDC ----------
 

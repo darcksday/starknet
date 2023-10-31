@@ -18,20 +18,11 @@ def interface_deploy_argent_wallet():
             logger.error(f'Error: No wallet address provided')
             continue
 
+
         logger.info(f"[{account._id}][{account.address_original}] deploy...")
 
         try:
-            transaction = account.account.deploy_account_sync(
-                address=account.address_original,
-                class_hash=ARGENTX_IMPLEMENTATION_CLASS_HASH_NEW,
-                salt=account.key_pair.public_key,
-                key_pair=account.key_pair,
-                client=account.client,
-                chain=StarknetChainId.MAINNET,
-                constructor_calldata=[account.key_pair.public_key, 0],
-                auto_estimate=True
-            )
-            account.wait_until_tx_finished(transaction.hash)
+            activate_wallet(account)
 
             if _id < len(wallet_list) - 1:
                 sleeping(MIN_SLEEP, MAX_SLEEP)
@@ -39,3 +30,17 @@ def interface_deploy_argent_wallet():
         except Exception as e:
             logger.error(f'Error: {e}')
             continue
+
+
+def activate_wallet(account):
+    transaction = account.account.deploy_account_sync(
+        address=account.address_original,
+        class_hash=ARGENTX_IMPLEMENTATION_CLASS_HASH_NEW,
+        salt=account.key_pair.public_key,
+        key_pair=account.key_pair,
+        client=account.client,
+        chain=StarknetChainId.MAINNET,
+        constructor_calldata=[account.key_pair.public_key, 0],
+        auto_estimate=True
+    )
+    account.wait_until_tx_finished(transaction.hash)
