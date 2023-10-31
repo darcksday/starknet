@@ -13,6 +13,7 @@ WEB3_FEE_MULTIPLIER = 1.2
 
 # Shuffle allow to randomize wallets order
 USE_SHUFFLE = True
+DEPLOY_WALLET = False
 USE_REF = True
 
 # Scheduler allow to run script at specific time.
