@@ -2,8 +2,7 @@ import decimal
 import random
 from loguru import logger
 from common import TOKEN_ADDRESS
-from config.settings import MIN_BALANCE_ETH
-from helpers.common import int_to_wei, wei_to_int
+from helpers.common import int_to_wei, wei_to_int, get_min_balance_eth
 from helpers.starknet import Starknet
 from helpers.web3_account import Web3Account
 from modules.orbiter_bridge.config import *
@@ -18,7 +17,7 @@ def orbiter_bridge_to_starknet(account: Starknet, amount: float, from_chain: str
     web3_account = Web3Account(account._id, account.web3_private_key, from_chain)
     web3_balance = web3_account.get_web3_token_balance(web3_account.address, "", True)
     if not amount:
-        amount = web3_balance - MIN_BALANCE_ETH
+        amount = web3_balance - get_min_balance_eth()
     amount = __get_orbiter_eth_value(amount, "starknet")
     amount_wei = int_to_wei(amount, 18)
 
@@ -61,7 +60,7 @@ def orbiter_bridge_from_starknet(account: Starknet, amount, to_chain):
 
     balance = account.account.get_balance_sync()
     if not amount:
-        amount = wei_to_int(balance) - MIN_BALANCE_ETH
+        amount = wei_to_int(balance) - get_min_balance_eth()
     amount = __get_orbiter_eth_value(amount, to_chain)
     amount_wei = int_to_wei(amount, 18)
 
