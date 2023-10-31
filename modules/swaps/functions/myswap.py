@@ -42,10 +42,14 @@ def swap_token_myswap(account: Starknet, amount, from_token, to_token):
 
     token_symbols = {v: k for k, v in TOKEN_ADDRESS.items()}
     from_token_symbol = token_symbols.get(from_token)
+    if not from_token_symbol:
+        raise Exception(f'Token not found: {from_token}')
+
     to_token_symbol = token_symbols.get(to_token)
+    if not from_token_symbol:
+        raise Exception(f'Token not found: {to_token}')
 
     get_max_swap_amount_limited_dex(from_token, amount)
-    # cprint(f"Swap {amount} {from_token_symbol} to {to_token_symbol}", "yellow")
 
     amount_wei = account.get_swap_amount(from_token, amount)
     pool_id, reverse = get_pool_id(from_token_symbol, to_token_symbol)

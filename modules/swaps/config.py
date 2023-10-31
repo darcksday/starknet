@@ -18,7 +18,7 @@ with open('abi/protoss/abi.json') as file:
 MYSWAP_POOLS = {
     "ETHUSDC": 1,
     "DAIETH": 2,
-    "WBTCUSDC": 3,
+    # "WBTCUSDC": 3,
     "ETHUSDT": 4,
     "USDCUSDT": 5,
     "DAIUSDC": 6

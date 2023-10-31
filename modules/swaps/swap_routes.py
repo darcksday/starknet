@@ -29,7 +29,6 @@ SWAP_ROUTES = {
     'swap_token_myswap': {
         'tokens': {
             TOKEN_ADDRESS['USDC'],
-            TOKEN_ADDRESS['WBTC'],
             TOKEN_ADDRESS['DAI'],
             TOKEN_ADDRESS['USDT']
         },
