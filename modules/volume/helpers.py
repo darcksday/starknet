@@ -27,7 +27,7 @@ def check_wait_wallet_balance(account: Starknet, amount, token_symbol, contract_
             balance_wei = token['balance_wei']
             token_decimals = account.get_balance(contract_address)["decimal"]
 
-        balance = "{:4.4f}".format(balance_wei / 10 ** token_decimals)
+        balance = "{:4.6f}".format(balance_wei / 10 ** token_decimals)
         if balance_wei >= int_to_wei(amount, token_decimals):
             logger.info(f"[{account._id}][{account.address_original}] {balance} {token_symbol} found")
             time.sleep(5)

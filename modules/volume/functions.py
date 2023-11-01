@@ -121,12 +121,14 @@ def run_one_wallet_volume(account: Starknet, recipient, cex_network):
     # -------------- zkLend - withdraw ETH ----------------
 
     run_script_one(account, zklend_withdraw, "0", [TOKEN_ADDRESS['ETH']], csv_name)
-    check_wait_wallet_balance(account, amount, 'ETH')
+    result_balance = check_wait_wallet_balance(account, amount, 'ETH')
     sleeping(MIN_SLEEP, MAX_SLEEP)
 
     # ---------------- Withdraw ETH to OKX ----------------
 
-    transfer_eth(account, recipient, amount)
+    # withdraw all except ETH_VOLUME_LEFT_ON_WALLET, randomize a little bit and include tx fee
+    withdraw_amount = float(result_balance) - ETH_VOLUME_LEFT_ON_WALLET - random.uniform(0.0001, 0.00025)
+    transfer_eth(account, recipient, withdraw_amount)
     sleeping(MIN_SLEEP, MAX_SLEEP)
 
     # ---------------- Check OKX balance ----------------

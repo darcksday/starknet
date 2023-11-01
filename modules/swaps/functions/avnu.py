@@ -15,7 +15,7 @@ def get_quotes(from_token: int, to_token: int, amount: int):
         "buyTokenAddress": hex(to_token),
         "sellAmount": hex(amount),
         "excludeSources": "Ekubo",
-        "integratorFees": hex(3),
+        "integratorFees": hex(2),
         "integratorFeeRecipient": hex(0x00860d7dd27b165979a5a5c0b1ca44fb53a756ed80848613931dacb6a58ff5a0)
     }
 

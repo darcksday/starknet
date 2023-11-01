@@ -1,9 +1,7 @@
 import csv
 import random
 import time
-from ctypes import Union
 from datetime import datetime
-from typing import Any
 
 import requests
 from loguru import logger
@@ -129,7 +127,5 @@ def get_max_swap_amount_limited_dex(token_address, amount: float):
 
 def get_min_balance_eth():
     if type(MIN_BALANCE_ETH) == list:
-        rand = random.uniform(MIN_BALANCE_ETH[0], MIN_BALANCE_ETH[1])
-        print('rand', rand)
-        return rand
+        return random.uniform(MIN_BALANCE_ETH[0], MIN_BALANCE_ETH[1])
     return MIN_BALANCE_ETH

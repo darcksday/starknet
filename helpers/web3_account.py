@@ -1,7 +1,6 @@
 import sys
 import time
 import math
-from hexbytes import HexBytes
 from loguru import logger
 from web3 import Web3
 from eth_account import Account as EthereumAccount
