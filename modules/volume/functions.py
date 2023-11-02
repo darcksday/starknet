@@ -121,7 +121,7 @@ def run_one_wallet_volume(account: Starknet, recipient, cex_network):
     # -------------- zkLend - withdraw ETH ----------------
 
     run_script_one(account, zklend_withdraw, "0", [TOKEN_ADDRESS['ETH']], csv_name)
-    result_balance = check_wait_wallet_balance(account, amount, 'ETH')
+    result_balance = check_wait_wallet_balance(account, amount * 0.99, 'ETH')
     sleeping(MIN_SLEEP, MAX_SLEEP)
 
     # ---------------- Withdraw ETH to OKX ----------------
