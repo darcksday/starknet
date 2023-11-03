@@ -128,16 +128,19 @@ def run_one_wallet_volume(account: Starknet, recipient, cex_network):
 
     # withdraw all except ETH_VOLUME_LEFT_ON_WALLET, randomize a little bit and include tx fee
     withdraw_amount = float(result_balance) - ETH_VOLUME_LEFT_ON_WALLET - random.uniform(0.0001, 0.00025)
+    withdraw_amount = round(withdraw_amount, 6)
     transfer_eth(account, recipient, withdraw_amount)
     sleeping(MIN_SLEEP, MAX_SLEEP)
 
     # ---------------- Check OKX balance ----------------
 
+    min_expect_amount = withdraw_amount * 0.9999
+
     while True:
         logger.info(f"[{account._id}] Check OKX main account balance")
         main_acc_balance = get_okx_token_balance(0)
 
-        if main_acc_balance >= withdraw_amount:
+        if main_acc_balance >= min_expect_amount:
             logger.success(f"[{account._id}] {main_acc_balance} ETH found")
             break
         else:
@@ -146,7 +149,7 @@ def run_one_wallet_volume(account: Starknet, recipient, cex_network):
                     logger.info(f"[{account._id}] Check OKX subAccount {get_okx_sub_account_name(sub_account_num)}")
                     acc_balance = get_okx_token_balance(sub_account_num)
 
-                    if acc_balance >= withdraw_amount:
+                    if acc_balance >= min_expect_amount:
                         logger.success(f"[{account._id}] {acc_balance} ETH found, transfer to OKX main account")
                         okx_account = get_okx_account()
                         okx_account.transfer("ETH", acc_balance, get_okx_sub_account_name(sub_account_num), 'master')
@@ -154,7 +157,7 @@ def run_one_wallet_volume(account: Starknet, recipient, cex_network):
                         break
                     elif acc_balance > 0:
                         logger.info(
-                            f"[{account._id}] Only {acc_balance} ETH found, waiting {withdraw_amount} ETH...")
+                            f"[{account._id}] Only {acc_balance} ETH found, waiting at least {min_expect_amount} ETH...")
 
         sleeping(int(MIN_SLEEP / 2), int(MAX_SLEEP / 2))
         continue
