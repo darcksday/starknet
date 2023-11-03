@@ -19,7 +19,7 @@ def wait_gas():
     while True:
         gas = get_gas()
 
-        if gas > MAX_GWEI:
+        if gas and gas > MAX_GWEI:
             logger.info(f'Current GWEI: {"{:3.2f}".format(gas)} > {MAX_GWEI}, waiting...')
             sleeping(MIN_SLEEP, MAX_SLEEP)
         else:
