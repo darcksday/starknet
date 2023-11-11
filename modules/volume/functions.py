@@ -50,10 +50,9 @@ def run_one_wallet_volume(account: Starknet, recipient, cex_network):
     # Use amount without ETH_VOLUME_LEFT_ON_WALLET - left for fees
     amount = round(withdraw_amount - ETH_VOLUME_LEFT_ON_WALLET, 4)
 
-    #---------------- Activate wallet ---------------------
+    # ---------------- Activate wallet ---------------------
     if DEPLOY_WALLET:
-        activate_wallet(account)
-
+        activate_wallet(account, 'activate_wallet_volume')
 
     # --------- zkLend - supply ETH, borrow USDC ----------
 
