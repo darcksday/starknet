@@ -80,8 +80,8 @@ def zklend_repay_stable(account, amount: float = 0, token=None):
 
         transaction = account.sign_transaction([approve_call, repay_call])
         transaction_response = account.send_transaction(transaction)
-
-        return transaction_response.transaction_hash
+        if transaction_response:
+            return transaction_response.transaction_hash
     else:
         error = f"Wrong amount: {amount} {f'is more than borrowed {wei_to_int(max_repay_amount_wei, token_decimals)}' if amount > max_repay_amount_wei else 'too small'}"
         logger.error(f"[{account._id}][{account.address_original}] Repay error: {error}")

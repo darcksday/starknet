@@ -22,6 +22,9 @@ def swap_token_10kswap(account: Starknet, amount, from_token, to_token):
     path = [from_token, to_token]
     deadline = int(time.time()) + 1000000
     amount_wei = account.get_swap_amount(from_token, amount)
+    if not amount_wei:
+        return False
+
     get_max_swap_amount_limited_dex(from_token, amount)
 
     contract = account.get_contract(STARKSWAP_CONTRACT, STARKSWAP_ABI)
@@ -43,5 +46,5 @@ def swap_token_10kswap(account: Starknet, amount, from_token, to_token):
 
     transaction = account.sign_transaction([approve_call, swap_call])
     transaction_response = account.send_transaction(transaction)
-
-    return transaction_response.transaction_hash
+    if transaction_response:
+        return transaction_response.transaction_hash

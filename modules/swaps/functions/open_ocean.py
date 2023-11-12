@@ -60,6 +60,9 @@ def swap_token_open_ocean(account: Starknet, amount, from_token, to_token):
     logger.info(f"[{account._id}][{account.address_original}] Swap using OpenOcean")
 
     amount_wei = account.get_swap_amount(from_token, amount)
+    if not amount_wei:
+        return False
+
     response = build_transaction(account.address_original, from_token, to_token, amount_wei)
 
     print('response', response)
@@ -81,9 +84,7 @@ def swap_token_open_ocean(account: Starknet, amount, from_token, to_token):
         )
         calls_list.append(call)
 
-    print('calls_list', calls_list)
-
     transaction = account.sign_transaction(calls_list)
     transaction_response = account.send_transaction(transaction)
-
-    return transaction_response.transaction_hash
+    if transaction_response:
+        return transaction_response.transaction_hash

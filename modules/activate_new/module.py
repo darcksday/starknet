@@ -54,6 +54,7 @@ def activate_wallet(account, csv_name):
         )
         account.wait_until_tx_finished(transaction.hash)
 
+        logger.info(f"[{account._id}][{account.address_original}] deployed")
         write_csv_success(account._id, {
             'status': 1,
             'csv_name': csv_name,

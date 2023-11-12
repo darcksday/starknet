@@ -90,7 +90,7 @@ if __name__ == '__main__':
                 break
 
             elif option == 10:
-                run_multiple([random.choice(USE_MULTIPLE_FUNCTIONS)])
+                run_multiple(USE_MULTIPLE_FUNCTIONS, True)
                 break
 
             elif option == 11:

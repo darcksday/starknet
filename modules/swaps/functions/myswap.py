@@ -52,6 +52,9 @@ def swap_token_myswap(account: Starknet, amount, from_token, to_token):
     get_max_swap_amount_limited_dex(from_token, amount)
 
     amount_wei = account.get_swap_amount(from_token, amount)
+    if not amount_wei:
+        return False
+
     pool_id, reverse = get_pool_id(from_token_symbol, to_token_symbol)
     min_amount_out = get_min_amount_out(contract, pool_id, reverse, amount_wei, SLIPPAGE_PCT)
 
@@ -70,5 +73,5 @@ def swap_token_myswap(account: Starknet, amount, from_token, to_token):
 
     transaction = account.sign_transaction([approve_call, swap_call])
     transaction_response = account.send_transaction(transaction)
-
-    return transaction_response.transaction_hash
+    if transaction_response:
+        return transaction_response.transaction_hash

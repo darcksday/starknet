@@ -20,8 +20,8 @@ def zklend_collateral_enable(account, amount: float = 0, token=None):
 
     transaction = account.sign_transaction([enable_collateral_call])
     transaction_response = account.send_transaction(transaction)
-
-    return transaction_response.transaction_hash
+    if transaction_response:
+        return transaction_response.transaction_hash
 
 
 def zklend_collateral_disable(account, amount=0, token=None):
@@ -38,5 +38,5 @@ def zklend_collateral_disable(account, amount=0, token=None):
 
     transaction = account.sign_transaction([disable_collateral_call])
     transaction_response = account.send_transaction(transaction)
-
-    return transaction_response.transaction_hash
+    if transaction_response:
+        return transaction_response.transaction_hash

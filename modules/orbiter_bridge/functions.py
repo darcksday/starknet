@@ -81,8 +81,8 @@ def orbiter_bridge_from_starknet(account: Starknet, amount, to_chain):
 
         transaction = account.sign_transaction([approve_call, transfer_call])
         transaction_response = account.send_transaction(transaction)
-
-        return transaction_response.transaction_hash
+        if transaction_response:
+            return transaction_response.transaction_hash
 
 
 def __get_orbiter_eth_value(base_num, chain):

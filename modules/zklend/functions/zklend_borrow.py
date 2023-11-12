@@ -43,8 +43,8 @@ def zklend_borrow_stable(account, amount: float = 0, token=None):
 
         transaction = account.sign_transaction([borrow_call])
         transaction_response = account.send_transaction(transaction)
-
-        return transaction_response.transaction_hash
+        if transaction_response:
+            return transaction_response.transaction_hash
     else:
         error = f"Wrong amount: {amount} {f'is more than max borrow {max_borrow}' if amount > max_borrow else 'too small'}"
         logger.error(f"[{account._id}][{account.address_original}] Borrow error: {error}")

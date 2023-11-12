@@ -26,5 +26,5 @@ def dmail_send_email(account: Starknet, amount=0):
 
     transaction = account.sign_transaction([dmail_call])
     transaction_response = account.send_transaction(transaction)
-
-    return transaction_response.transaction_hash
+    if transaction_response:
+        return transaction_response.transaction_hash

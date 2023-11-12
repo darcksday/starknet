@@ -12,7 +12,6 @@ from modules.dmail.module import dmail_send_email
 from modules.exchange_withdraw.config import CEX_KEYS
 from modules.exchange_withdraw.functions import call_exchange_withdraw
 from modules.exchange_deposit.functions import transfer_eth
-from modules.nft.functions.pyramid import nft_pyramid
 from modules.nft.functions.starknet_id import nft_starknet_id
 from modules.nft.functions.starkverse import nft_starkverse
 from modules.nft.functions.unframed import nft_unframed
@@ -175,7 +174,6 @@ def random_call_before_swaps(account, step):
         f"[{account._id}][{account.address_original}] Random function before step #{step + 1}"
     )
     random_function = random.choice([
-        nft_pyramid,
         nft_starknet_id,
         nft_starkverse,
         nft_unframed,

@@ -30,7 +30,7 @@ def zklend_withdraw(account, amount: float, token=None):
 
         transaction = account.sign_transaction([withdraw_all_call])
         transaction_response = account.send_transaction(transaction)
-
-        return transaction_response.transaction_hash
+        if transaction_response:
+            return transaction_response.transaction_hash
     else:
         logger.error(f"[{account._id}][{account.address_original}] Deposit not found")

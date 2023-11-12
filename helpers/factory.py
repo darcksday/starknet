@@ -47,7 +47,7 @@ def call_function(
         return True
 
     except Exception as error:
-        # logger.error(f'[{starknet_acc._id}][{starknet_acc.address_original}] Error: {error}')
+        # print(str(error), 'call_function error, retry...')
         exc_type, exc_value, exc_traceback = sys.exc_info()
 
         traceback_details = traceback.format_exception(exc_type, exc_value, exc_traceback)
@@ -66,6 +66,8 @@ def call_function(
         if ('Insufficient max fee' in str(error) or 'Server Error' in str(error)) and retry < 5:
             time.sleep(10)
             return call_function(account, method, _amount, params, csv, retry + 1)
+        else:
+            logger.error(f'[{account._id}][{account.address_original}]: {error}')
 
 
 def run_script(method, _amount: str, params=[], specific_prt={}):
@@ -119,13 +121,18 @@ def run_random_swap(routes: dict, _amount: str, specific_prt=None):
             sleeping(MIN_SLEEP, MAX_SLEEP)
 
 
-def run_multiple(functions: list):
+def run_multiple(_functions: list, choose_one=False):
     prt_keys = get_private_keys()
     wallets_paths = {}
-    fn_len = len(sort_functions(functions))
+    fn_len = 1 if choose_one else len(sort_functions(_functions))
 
     for fn_index in range(fn_len):
         for item in prt_keys:
+            if choose_one:
+                functions = [random.choice(_functions)]
+            else:
+                functions = _functions
+
             path = generate_path(item, wallets_paths, functions)
             function = path[fn_index]
 

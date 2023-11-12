@@ -17,5 +17,5 @@ def nft_unframed(account: Starknet, amount=0):
 
     transaction = account.sign_transaction([unframed_call], 1)
     transaction_response = account.send_transaction(transaction)
-
-    return transaction_response.transaction_hash
+    if transaction_response:
+        return transaction_response.transaction_hash

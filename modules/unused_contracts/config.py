@@ -3,7 +3,6 @@ from modules.swaps.config import *
 from modules.nft.config import *
 from modules.dmail.config import DMAIL_CONTRACT
 from modules.dmail.module import dmail_send_email
-from modules.nft.functions.pyramid import nft_pyramid
 from modules.nft.functions.starknet_id import nft_starknet_id
 from modules.nft.functions.starkverse import nft_starkverse
 from modules.nft.functions.unframed import nft_unframed
@@ -20,7 +19,6 @@ from modules.zklend.functions.zklend_withdraw import zklend_withdraw
 ALL_CONTRACT_FUNCTIONS = {
     STARKNET_ID_CONTRACT: nft_starknet_id,
     STARKVERSE_CONTRACT: nft_starkverse,
-    PYRAMID_CONTRACT: nft_pyramid,
     UNFRAMED_CONTRACT: nft_unframed,
     FLEX_CONTRACT: nft_flex,
     DMAIL_CONTRACT: dmail_send_email,

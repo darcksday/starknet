@@ -21,6 +21,9 @@ def swap_token_sithswap(account: Starknet, amount, from_token, to_token):
     logger.info(f"[{account._id}][{account.address_original}] Swap using SithSwap")
 
     amount_wei = account.get_swap_amount(from_token, amount)
+    if not amount_wei:
+        return False
+
     contract = account.get_contract(SITHSWAP_CONTRACT, SITHSWAP_ABI)
 
     path = [from_token, to_token]
@@ -44,5 +47,5 @@ def swap_token_sithswap(account: Starknet, amount, from_token, to_token):
 
     transaction = account.sign_transaction([approve_call, swap_call])
     transaction_response = account.send_transaction(transaction)
-
-    return transaction_response.transaction_hash
+    if transaction_response:
+        return transaction_response.transaction_hash

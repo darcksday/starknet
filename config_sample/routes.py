@@ -1,7 +1,6 @@
 from helpers.factory import run_random_swap
 from modules.dmail.module import dmail_send_email
 from modules.nft.functions.flex import nft_flex
-from modules.nft.functions.pyramid import nft_pyramid
 from modules.nft.functions.starknet_id import nft_starknet_id
 from modules.nft.functions.starkverse import nft_starkverse
 from modules.nft.functions.unframed import nft_unframed
@@ -11,7 +10,6 @@ from modules.zklend.functions.zklend_withdraw import zklend_withdraw
 
 """
 You can use:
-nft_pyramid
 nft_starknet_id
 nft_starkverse
 nft_unframed
@@ -35,7 +33,6 @@ for swaps in different protocols
 """
 
 USE_MULTIPLE_FUNCTIONS = [
-    nft_pyramid,
     nft_starknet_id,
     nft_starkverse,
     nft_unframed,
@@ -44,7 +41,6 @@ USE_MULTIPLE_FUNCTIONS = [
         zklend_deposit,
         zklend_withdraw,
     ],
-    run_random_swap,
     run_random_swap,
     run_random_swap,
     dmail_send_email,

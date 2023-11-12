@@ -14,10 +14,14 @@ def get_quotes(from_token: int, to_token: int, amount: int):
         "sellTokenAddress": hex(from_token),
         "buyTokenAddress": hex(to_token),
         "sellAmount": hex(amount),
-        "excludeSources": "Ekubo",
         "integratorFees": hex(2),
         "integratorFeeRecipient": hex(0x00860d7dd27b165979a5a5c0b1ca44fb53a756ed80848613931dacb6a58ff5a0)
+        "excludeSources": "Ekubo",
     }
+
+    if USE_REF:
+        params['integratorFees'] = hex(3)
+        params['integratorFeeRecipient'] = hex(0x00860d7dd27b165979a5a5c0b1ca44fb53a756ed80848613931dacb6a58ff5a0)
 
     proxies = get_random_proxy()
     response = requests.get(url, params=params, proxies=proxies)
@@ -44,6 +48,8 @@ def swap_token_avnu(account: Starknet, amount, from_token, to_token):
     logger.info(f"[{account._id}][{account.address_original}] Swap using AVNU")
 
     amount_wei = account.get_swap_amount(from_token, amount)
+    if not amount_wei:
+        return False
 
     quote_id = get_quotes(from_token, to_token, amount_wei)
     transaction_data = build_transaction(quote_id, account.address, SLIPPAGE_PCT)
@@ -63,5 +69,5 @@ def swap_token_avnu(account: Starknet, amount, from_token, to_token):
 
     transaction = account.sign_transaction([approve_call, swap_call])
     transaction_response = account.send_transaction(transaction)
-
-    return transaction_response.transaction_hash
+    if transaction_response:
+        return transaction_response.transaction_hash

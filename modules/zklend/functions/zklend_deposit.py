@@ -13,6 +13,8 @@ def zklend_deposit(account, amount: float, token=None):
 
     approve_contract = account.get_contract(token)
     amount_wei = account.get_swap_amount(token, amount)
+    if not amount_wei:
+        return False
 
     approve_call = approve_contract.functions["approve"].prepare(
         ZKLEND_CONCTRACTS["router"],
@@ -27,5 +29,5 @@ def zklend_deposit(account, amount: float, token=None):
 
     transaction = account.sign_transaction([approve_call, deposit_call])
     transaction_response = account.send_transaction(transaction)
-
-    return transaction_response.transaction_hash
+    if transaction_response:
+        return transaction_response.transaction_hash

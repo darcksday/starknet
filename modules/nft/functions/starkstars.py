@@ -23,5 +23,5 @@ def nft_starkstars(account: Starknet, amount=0):
 
     transaction = account.sign_transaction([approve_call, mint_starkstars_call])
     transaction_response = account.send_transaction(transaction)
-
-    return transaction_response.transaction_hash
+    if transaction_response:
+        return transaction_response.transaction_hash

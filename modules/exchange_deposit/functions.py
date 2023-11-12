@@ -40,16 +40,16 @@ def transfer_eth(account: Starknet, recipient, amount: float):
 
     transaction = account.sign_transaction([transfer_call])
     transaction_response = account.send_transaction(transaction)
+    if transaction_response:
+        account.wait_until_tx_finished(transaction_response.transaction_hash)
 
-    account.wait_until_tx_finished(transaction_response.transaction_hash)
-
-    csv_name = 'exchange_deposit'
-    start_csv(csv_name)
-    current_datetime = datetime.now()
-    formatted_datetime = current_datetime.strftime("%Y-%m-%d %H:%M:%S")
-    write_csv_success(account._id, {
-        'status': 1,
-        'csv_name': csv_name,
-        'function': 'transfer_eth',
-        'date': formatted_datetime,
-    })
+        csv_name = 'exchange_deposit'
+        start_csv(csv_name)
+        current_datetime = datetime.now()
+        formatted_datetime = current_datetime.strftime("%Y-%m-%d %H:%M:%S")
+        write_csv_success(account._id, {
+            'status': 1,
+            'csv_name': csv_name,
+            'function': 'transfer_eth',
+            'date': formatted_datetime,
+        })

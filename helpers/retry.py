@@ -1,5 +1,7 @@
 import time
 
+from loguru import logger
+
 MAX_RETRIES = 5
 
 
@@ -11,6 +13,7 @@ def retry(func):
                 result = func(*args, **kwargs)
                 return result
             except Exception as e:
+                logger.error(f"{e}. {'Retry...' if retries + 1 < MAX_RETRIES else 'Max retries reached, skip.'}")
                 time.sleep(10)
                 retries += 1
 

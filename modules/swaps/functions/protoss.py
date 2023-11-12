@@ -20,6 +20,9 @@ def swap_token_protoss(account: Starknet, amount, from_token, to_token):
     logger.info(f"[{account._id}][{account.address_original}] Swap using Protoss")
 
     amount_wei = account.get_swap_amount(from_token, amount)
+    if not amount_wei:
+        return False
+
     contract = account.get_contract(PROTOSS_CONTRACT, PROTOSS_ABI)
     get_max_swap_amount_limited_dex(from_token, amount)
 
@@ -43,5 +46,5 @@ def swap_token_protoss(account: Starknet, amount, from_token, to_token):
 
     transaction = account.sign_transaction([approve_call, swap_call])
     transaction_response = account.send_transaction(transaction)
-
-    return transaction_response.transaction_hash
+    if transaction_response:
+        return transaction_response.transaction_hash

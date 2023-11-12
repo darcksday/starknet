@@ -17,7 +17,7 @@ from starknet_py.net.signer.stark_curve_signer import KeyPair
 from helpers.retry import retry
 from config.settings import *
 from common import *
-from helpers.common import int_to_wei
+from helpers.common import int_to_wei, wei_to_int
 
 MAX_RETRIES = 3
 
@@ -113,15 +113,25 @@ class Starknet:
             "decimal": decimal.decimals
         }
 
-    @retry
-    def sign_transaction(self, calls: List[Call], cairo_version: int = 0):
+    def sign_transaction(self, calls: List[Call], cairo_version: int = 0, repeat: int = 0):
+        if repeat > MAX_RETRIES:
+            raise Exception("Max retries reached")
+
         nonce = self.account.get_nonce_sync()
-        transaction = self.account.sign_invoke_transaction_sync(
-            calls=calls,
-            auto_estimate=True,
-            nonce=nonce,
-            cairo_version=cairo_version
-        )
+        try:
+            transaction = self.account.sign_invoke_transaction_sync(
+                calls=calls,
+                auto_estimate=True,
+                nonce=nonce,
+                cairo_version=cairo_version
+            )
+        except Exception as error:
+            if 'Server Error' in str(error) or 'Server disconnected' in str(error):
+                time.sleep(10)
+                return self.sign_transaction(calls, cairo_version, repeat + 1)
+            else:
+                raise Exception(str(error))
+
         return transaction
 
     def send_transaction(self, transaction: Invoke, _retry=0):
@@ -132,7 +142,8 @@ class Starknet:
                 time.sleep(10)
                 return self.send_transaction(transaction, _retry + 1)
             else:
-                raise Exception(error)
+                logger.error(f"[{self._id}][{self.address_original}] {str(error)}")
+                return False
 
     def wait_until_tx_finished(self, tx_hash: int, _retry=0):
         if _retry == 0:
@@ -152,6 +163,7 @@ class Starknet:
     @retry
     def get_swap_amount(self, from_token, amount: float) -> int:
         balance = self.account.get_balance_sync(from_token)
+        decimals = 18
         if amount == 0:
             amount_wei = balance
             if from_token == TOKEN_ADDRESS["ETH"]:
@@ -159,7 +171,11 @@ class Starknet:
         else:
             token = self.get_contract(from_token).functions["decimals"].call_sync()
             amount_wei = int_to_wei(amount, token.decimals)
+            decimals = token.decimals
 
         if amount_wei <= 0 or amount_wei > balance:
-            raise Exception(f"Insufficient balance: {balance}")
+            if amount_wei <= 0:
+                raise Exception(f"Not enough tokens to left on balance, check MIN_BALANCE_ETH setting")
+            else:
+                raise Exception(f"Insufficient balance: {wei_to_int(balance, decimals)} < {wei_to_int(amount_wei, decimals)}")
         return amount_wei
