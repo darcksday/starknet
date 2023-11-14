@@ -124,15 +124,12 @@ def run_random_swap(routes: dict, _amount: str, specific_prt=None):
 def run_multiple(_functions: list, choose_one=False):
     prt_keys = get_private_keys()
     wallets_paths = {}
-    fn_len = 1 if choose_one else len(sort_functions(_functions))
 
-    for fn_index in range(fn_len):
-        for item in prt_keys:
-            if choose_one:
-                functions = [random.choice(_functions)]
-            else:
-                functions = _functions
+    for _id, item in enumerate(prt_keys):
+        functions = [random.choice(_functions)] if choose_one else _functions
+        fn_len = len(sort_functions(_functions))
 
+        for fn_index in range(fn_len):
             path = generate_path(item, wallets_paths, functions)
             function = path[fn_index]
 
@@ -143,7 +140,8 @@ def run_multiple(_functions: list, choose_one=False):
             else:
                 run_script(function, '', [], item)
 
-            sleeping(MIN_SLEEP, MAX_SLEEP)
+            if _id < len(prt_keys) - 1:
+                sleeping(MIN_SLEEP, MAX_SLEEP)
 
 
 def generate_path(item, wallets_paths, functions):

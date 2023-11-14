@@ -14,6 +14,7 @@ def zklend_deposit(account, amount: float, token=None):
     approve_contract = account.get_contract(token)
     amount_wei = account.get_swap_amount(token, amount)
     if not amount_wei:
+        logger.error(f"[{account._id}][{account.address_original}] Not enough token balance")
         return False
 
     approve_call = approve_contract.functions["approve"].prepare(

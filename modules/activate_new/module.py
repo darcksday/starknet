@@ -8,6 +8,7 @@ from config.settings import MIN_SLEEP, MAX_SLEEP
 from helpers.cli import sleeping
 from helpers.common import get_private_keys
 from helpers.csv_helper import write_csv_error, write_csv_success, start_csv
+from helpers.gas_checker import check_gas
 from helpers.starknet import Starknet
 
 
@@ -36,7 +37,7 @@ def interface_deploy_argent_wallet():
             logger.error(f'Error: {e}')
             continue
 
-
+@check_gas
 def activate_wallet(account, csv_name):
     current_datetime = datetime.now()
     formatted_datetime = current_datetime.strftime("%Y-%m-%d %H:%M:%S")

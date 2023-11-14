@@ -17,7 +17,7 @@ from starknet_py.net.signer.stark_curve_signer import KeyPair
 from helpers.retry import retry
 from config.settings import *
 from common import *
-from helpers.common import int_to_wei, wei_to_int
+from helpers.common import int_to_wei, wei_to_int, get_min_balance_eth
 
 MAX_RETRIES = 3
 
@@ -166,7 +166,7 @@ class Starknet:
         if amount == 0:
             amount_wei = balance
             if from_token == TOKEN_ADDRESS["ETH"]:
-                amount_wei = amount_wei - int_to_wei(MIN_BALANCE_ETH, 18)
+                amount_wei = amount_wei - int_to_wei(get_min_balance_eth(), 18)
         else:
             token = self.get_contract(from_token).functions["decimals"].call_sync()
             amount_wei = int_to_wei(amount, token.decimals)

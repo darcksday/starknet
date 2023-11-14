@@ -38,7 +38,6 @@ Install python on WSL2: https://www.cherryservers.com/blog/install-python-on-ubu
 - NFT:
     - StarknetId
     - Starkverse
-    - Pyramid
     - Unframed
     - Flex
     - StarkStars
@@ -51,6 +50,10 @@ Install python on WSL2: https://www.cherryservers.com/blog/install-python-on-ubu
     - Borrow
     - Repay
     - ROUTE: Deposit ETH > Enable collateral > Borrow random token > Repay token > Withdraw ETH
+- Nostra:
+    - Deposit
+    - Withdraw
+    - ROUTE: Deposit ETH > Withdraw ETH
 - MULTIPLE Functions: make one or multiple random transactions.
 - VOLUME: increase wallet tx volumes. Process step-by-step:
   Script withdraw ETH from OKX to your StarkNet wallet (amount include randomisation), then use zkLend to provide ETH as collateral and

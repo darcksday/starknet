@@ -1,4 +1,5 @@
 from modules.nft.functions.flex import nft_flex
+from modules.nostra.config import NOSTRA_CONTRACTS
 from modules.swaps.config import *
 from modules.nft.config import *
 from modules.dmail.config import DMAIL_CONTRACT
@@ -15,6 +16,8 @@ from modules.swaps.functions.tenk_swap import swap_token_10kswap
 from modules.zklend.config import ZKLEND_CONCTRACTS
 from modules.zklend.functions.zklend_deposit import zklend_deposit
 from modules.zklend.functions.zklend_withdraw import zklend_withdraw
+from modules.nostra.functions.nostra_deposit import nostra_deposit
+from modules.nostra.functions.nostra_withdraw import nostra_withdraw
 
 ALL_CONTRACT_FUNCTIONS = {
     STARKNET_ID_CONTRACT: nft_starknet_id,
@@ -29,4 +32,5 @@ ALL_CONTRACT_FUNCTIONS = {
     PROTOSS_CONTRACT: swap_token_protoss,
     AVNU_CONTRACT: swap_token_avnu,
     ZKLEND_CONCTRACTS['router']: [zklend_deposit, zklend_withdraw],
+    NOSTRA_CONTRACTS['ETH']: [nostra_deposit, nostra_withdraw],
 }

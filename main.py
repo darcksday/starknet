@@ -7,6 +7,7 @@ from modules.balance.module import interface_check_balance
 from modules.dmail.module import dmail_send_email
 from modules.exchange_withdraw.module import interface_exchange_withdraw
 from modules.nft.module import interface_nft
+from modules.nostra.module import interface_nostra
 from modules.orbiter_bridge.module import interface_orbiter_bridge
 from modules.swaps.module import interface_swaps
 from modules.exchange_deposit.module import interface_transfer_to_exchange
@@ -34,14 +35,15 @@ if __name__ == '__main__':
             cprint(f'7. Swaps: JediSwap/MySwap/10kSwap...', 'yellow')
             cprint(f'8. NFT: StarknetId/Starkverse/Pyramid...', 'yellow')
             cprint(f'9. ZkLend: supply/withdraw/borrow/repay...', 'yellow')
-            cprint(f'10. Run one random function from routing (use config/routes.py)', 'yellow')
-            cprint(f'11. Run all functions from routing randomly (use config/routes.py)', 'yellow')
+            cprint(f'10. Nostra: deposit/withdraw', 'yellow')
+            cprint(f'11. Run one random function from routing (use config/routes.py)', 'yellow')
+            cprint(f'12. Run all functions from routing randomly (use config/routes.py)', 'yellow')
             cprint(
-                f'12. Volume ({ETH_VOLUME_AMOUNT_PER_ACC} ETH): wallet by wallet / OKX > ZkLend > AVNU/SithSwap ({swaps_count} swaps) > ZkLend > OKX',
+                f'13. Volume ({ETH_VOLUME_AMOUNT_PER_ACC} ETH): wallet by wallet / OKX > ZkLend > AVNU/SithSwap ({swaps_count} swaps) > ZkLend > OKX',
                 'yellow'
             )
-            cprint(f'13. Find and run unused contract for wallet', 'yellow')
-            cprint(f'14. Deploy new argent wallets', 'yellow')
+            cprint(f'14. Find and run unused contract for wallet', 'yellow')
+            cprint(f'15. Deploy new argent wallets', 'yellow')
 
             try:
                 option = int(input("> "))
@@ -90,22 +92,26 @@ if __name__ == '__main__':
                 break
 
             elif option == 10:
-                run_multiple(USE_MULTIPLE_FUNCTIONS, True)
+                interface_nostra()
                 break
 
             elif option == 11:
-                run_multiple(USE_MULTIPLE_FUNCTIONS)
+                run_multiple(USE_MULTIPLE_FUNCTIONS, True)
                 break
 
             elif option == 12:
-                run_volume_wallet_by_wallet()
+                run_multiple(USE_MULTIPLE_FUNCTIONS)
                 break
 
             elif option == 13:
-                interface_unused_contracts()
+                run_volume_wallet_by_wallet()
                 break
 
             elif option == 14:
+                interface_unused_contracts()
+                break
+
+            elif option == 15:
                 interface_deploy_argent_wallet()
                 break
 
