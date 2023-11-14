@@ -143,6 +143,8 @@ def run_multiple(_functions: list, choose_one=False):
             else:
                 run_script(function, '', [], item)
 
+            sleeping(MIN_SLEEP, MAX_SLEEP)
+
 
 def generate_path(item, wallets_paths, functions):
     if not item['index'] in wallets_paths:

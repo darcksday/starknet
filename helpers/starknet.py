@@ -179,3 +179,6 @@ class Starknet:
             else:
                 raise Exception(f"Insufficient balance: {wei_to_int(balance, decimals)} < {wei_to_int(amount_wei, decimals)}")
         return amount_wei
+
+    def get_transaction(self, tx_hash: int):
+        return self.account.client.get_transaction_receipt_sync(tx_hash)

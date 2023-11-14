@@ -18,7 +18,7 @@ def interface_nft():
             cprint(f'3. StarkStars mint NFT (0.0001 ETH)', 'yellow')
             cprint(f'4. Unframed marketplace call (cheap tx)', 'yellow')
             cprint(f'5. Flex marketplace call (cheap tx)', 'yellow')
-            # cprint(f'6. Deploy NFT to starkGuardians and mint', 'yellow')
+            cprint(f'6. Deploy NFT to starkGuardians and mint', 'yellow')
             cprint(f'10. RANDOM: Call random NFT function', 'yellow')
             try:
                 option = int(input("> "))
