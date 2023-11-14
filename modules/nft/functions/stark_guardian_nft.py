@@ -6,7 +6,7 @@ from modules.nft.config import STARKGUARDIANS_ABI, STARKGUARDIANS_CONTRACT
 
 
 def get_random_name_symbol():
-    token_name = "".join(random.sample([chr(i) for i in range(95, 120)], random.randint(6, 14)))
+    token_name = "".join(random.sample([chr(i) for i in range(97, 123)], random.randint(7, 15)))
     token_symbol = token_name.upper()[0:random.randint(3, 4)]
     return token_name, token_symbol
 
@@ -17,6 +17,8 @@ def nft_deploy_stark_guardian(account: Starknet, amount=0):
     contract = account.get_contract(STARKGUARDIANS_CONTRACT, STARKGUARDIANS_ABI)
 
     token_name, token_symbol = get_random_name_symbol()
+    print(token_name, token_symbol)
+
     deploy_call = contract.functions["deployContract"].prepare(
         0x745c9a10e7bc32095554c895490cfaac6c4c8cada2e3763faddedfaa72c856a,
         random.randint(38890058876971531151, 85735143683896744799),
@@ -24,9 +26,12 @@ def nft_deploy_stark_guardian(account: Starknet, amount=0):
         [
             token_name,
             token_symbol,
-            account.address_original,
+            account.address,
+            random.randint(1000000000000000000000, 10000000000000000000000000000)
         ]
     )
+
+    print('deploy_call', deploy_call)
 
     transaction = account.sign_transaction([deploy_call])
     transaction_response = account.send_transaction(transaction)

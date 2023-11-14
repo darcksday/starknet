@@ -15,7 +15,7 @@ def nft_unframed(account: Starknet, amount=0):
     contract = account.get_contract(UNFRAMED_CONTRACT, UNFRAMED_ABI, 1)
     unframed_call = contract.functions["cancel_orders"].prepare(order_nonces=[random_nonce])
 
-    transaction = account.sign_transaction([unframed_call], 1)
+    transaction = account.sign_transaction([unframed_call])
     transaction_response = account.send_transaction(transaction)
     if transaction_response:
         return transaction_response.transaction_hash

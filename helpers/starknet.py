@@ -113,7 +113,7 @@ class Starknet:
             "decimal": decimal.decimals
         }
 
-    def sign_transaction(self, calls: List[Call], cairo_version: int = 0, repeat: int = 0):
+    def sign_transaction(self, calls: List[Call], repeat: int = 0):
         if repeat > MAX_RETRIES:
             raise Exception("Max retries reached")
 
@@ -122,13 +122,12 @@ class Starknet:
             transaction = self.account.sign_invoke_transaction_sync(
                 calls=calls,
                 auto_estimate=True,
-                nonce=nonce,
-                cairo_version=cairo_version
+                nonce=nonce
             )
         except Exception as error:
             if 'Server Error' in str(error) or 'Server disconnected' in str(error):
                 time.sleep(10)
-                return self.sign_transaction(calls, cairo_version, repeat + 1)
+                return self.sign_transaction(calls, repeat + 1)
             else:
                 raise Exception(str(error))
 
