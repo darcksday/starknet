@@ -73,7 +73,7 @@ def swap_token_open_ocean(account: Starknet, amount, from_token, to_token):
         contract_integer = int(tx['contractAddress'], 16)
         data = []
         for i in tx['calldata']:
-            if '0x' in i:
+            if '0x' in str(i):
                 data.append(int(i, 16))
             else:
                 data.append(int(i))
