@@ -91,7 +91,7 @@ def run_one_wallet_volume(account: Starknet, recipient, cex_network):
         swap_function = random.choice([swap_token_avnu, swap_token_sithswap, swap_token_avnu])
         run_script_one(account, swap_function, "0", [TOKEN_ADDRESS['USDC'], TOKEN_ADDRESS['USDT']], csv_name)
 
-        check_wait_wallet_balance(account, max_borrow_usdc * 0.99, 'USDT', TOKEN_ADDRESS['USDT'])
+        check_wait_wallet_balance(account, max_borrow_usdc * 0.98, 'USDT', TOKEN_ADDRESS['USDT'])
         sleeping(MIN_SLEEP, MAX_SLEEP)
 
         logger.info(
@@ -100,7 +100,7 @@ def run_one_wallet_volume(account: Starknet, recipient, cex_network):
         swap_function = random.choice([swap_token_avnu, swap_token_sithswap, swap_token_avnu])
         run_script_one(account, swap_function, "0", [TOKEN_ADDRESS['USDT'], TOKEN_ADDRESS['USDC']], csv_name)
 
-        check_wait_wallet_balance(account, max_borrow_usdc * 0.99, 'USDC', TOKEN_ADDRESS['USDC'])
+        check_wait_wallet_balance(account, max_borrow_usdc * 0.98, 'USDC', TOKEN_ADDRESS['USDC'])
         sleeping(MIN_SLEEP, MAX_SLEEP)
 
     # ------------- zkLend - repay USDC ---------------
@@ -119,7 +119,7 @@ def run_one_wallet_volume(account: Starknet, recipient, cex_network):
     # -------------- zkLend - withdraw ETH ----------------
 
     run_script_one(account, zklend_withdraw, "0", [TOKEN_ADDRESS['ETH']], csv_name)
-    result_balance = check_wait_wallet_balance(account, amount * 0.99, 'ETH')
+    result_balance = check_wait_wallet_balance(account, amount * 0.98, 'ETH')
     sleeping(MIN_SLEEP, MAX_SLEEP)
 
     # ---------------- Withdraw ETH to OKX ----------------
@@ -132,7 +132,7 @@ def run_one_wallet_volume(account: Starknet, recipient, cex_network):
 
     # ---------------- Check OKX balance ----------------
 
-    min_expect_amount = withdraw_amount * 0.9999
+    min_expect_amount = withdraw_amount * 0.999
 
     while True:
         logger.info(f"[{account._id}] Check OKX main account balance")

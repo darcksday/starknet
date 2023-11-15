@@ -42,18 +42,21 @@ def send_graphql_request(address, cursor):
         }
     }
 
+    rand_version = random.randint(114, 118)
+    macos_version = random.randint(5, 7)
+
     headers = {
         "Content-Type": "application/json",
         "Dnt": "1",
         "Origin": "https://starkscan.co",
         "Referer": "https://starkscan.co/",
-        "Sec-Ch-Ua": '"Chromium";v="118", "Google Chrome";v="118", "Not=A?Brand";v="99"',
+        "Sec-Ch-Ua": f'"Chromium";v="{rand_version}", "Google Chrome";v="{rand_version}", "Not=A?Brand";v="99"',
         "Sec-Ch-Ua-Mobile": "?0",
         "Sec-Ch-Ua-Platform": '"macOS"',
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "cross-site",
-        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36"
+        "User-Agent": f"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_{macos_version}) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/{rand_version}.0.0.0 Safari/537.36"
     }
 
     proxies = get_random_proxy()

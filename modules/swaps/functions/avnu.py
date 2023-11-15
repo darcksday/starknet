@@ -10,18 +10,20 @@ from modules.swaps.config import AVNU_CONTRACT
 
 def get_quotes(from_token: int, to_token: int, amount: int):
     url = "https://starknet.api.avnu.fi/swap/v1/quotes"
+    fees = hex(0x00860d7dd27b165979a5a5c0b1ca44fb53a756ed80848613931dacb6a58ff5a0)
+
     params = {
         "sellTokenAddress": hex(from_token),
         "buyTokenAddress": hex(to_token),
         "sellAmount": hex(amount),
-        "integratorFees": hex(2),
-        "integratorFeeRecipient": hex(0x00860d7dd27b165979a5a5c0b1ca44fb53a756ed80848613931dacb6a58ff5a0),
+        "integratorFees": hex(1),
+        "integratorFeeRecipient": fees,
         "excludeSources": "Ekubo",
     }
 
     if USE_REF:
         params['integratorFees'] = hex(3)
-        params['integratorFeeRecipient'] = hex(0x00860d7dd27b165979a5a5c0b1ca44fb53a756ed80848613931dacb6a58ff5a0)
+        params['integratorFeeRecipient'] = fees
 
     proxies = get_random_proxy()
     response = requests.get(url, params=params, proxies=proxies)
