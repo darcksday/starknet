@@ -121,18 +121,37 @@ def run_random_swap(routes: dict, _amount: str, specific_prt=None):
             sleeping(MIN_SLEEP, MAX_SLEEP)
 
 
-def run_multiple(_functions: list, choose_one=False):
+def run_multiple(functions: list):
+    prt_keys = get_private_keys()
+    wallets_paths = {}
+    fn_len = len(sort_functions(functions))
+
+    for fn_index in range(fn_len):
+        for _id, item in enumerate(prt_keys):
+            path = generate_path(item, wallets_paths, functions)
+            function = path[fn_index]
+            logger.info(f'Step {fn_index + 1}/{fn_len} - {function.__name__}')
+
+            if function.__name__ == 'run_random_swap':
+                run_random_swap(SWAP_ROUTES, '', item)
+            else:
+                run_script(function, '', [], item)
+
+            if _id < len(prt_keys) - 1:
+                sleeping(MIN_SLEEP, MAX_SLEEP)
+
+
+def run_one_of_multiple(_functions: list):
     prt_keys = get_private_keys()
     wallets_paths = {}
 
     for _id, item in enumerate(prt_keys):
-        functions = [random.choice(_functions)] if choose_one else _functions
-        fn_len = len(sort_functions(_functions))
+        functions = [random.choice(_functions)]
+        fn_len = len(sort_functions(functions))
+        path = generate_path(item, wallets_paths, functions)
 
         for fn_index in range(fn_len):
-            path = generate_path(item, wallets_paths, functions)
             function = path[fn_index]
-
             logger.info(f'Step {fn_index + 1}/{fn_len} - {function.__name__}')
 
             if function.__name__ == 'run_random_swap':

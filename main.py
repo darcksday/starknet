@@ -1,7 +1,7 @@
 from config.settings import ETH_VOLUME_AMOUNT_PER_ACC, VOLUME_SWAP_REPEATS
 from helpers.cli import *
 from config.routes import USE_MULTIPLE_FUNCTIONS
-from helpers.factory import run_script, run_multiple
+from helpers.factory import run_script, run_multiple, run_one_of_multiple
 from modules.activate_new.module import interface_deploy_argent_wallet
 from modules.balance.module import interface_check_balance
 from modules.dmail.module import dmail_send_email
@@ -96,7 +96,7 @@ if __name__ == '__main__':
                 break
 
             elif option == 11:
-                run_multiple(USE_MULTIPLE_FUNCTIONS, True)
+                run_one_of_multiple(USE_MULTIPLE_FUNCTIONS)
                 break
 
             elif option == 12:
