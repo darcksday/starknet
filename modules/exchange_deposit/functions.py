@@ -2,6 +2,7 @@ import time
 from datetime import datetime
 from loguru import logger
 from common import TOKEN_ADDRESS
+from config.settings import MIN_BALANCE_ETH, ETH_VOLUME_LEFT_ON_WALLET
 from helpers.common import int_to_wei, wei_to_int, get_min_balance_eth
 from helpers.csv_helper import write_csv_success, start_csv
 from helpers.starknet import Starknet
@@ -27,6 +28,8 @@ def transfer_eth(account: Starknet, recipient, amount: float):
             min_amount = amount_wei + int_to_wei(get_min_balance_eth())
             if min_amount > balance_wei:
                 logger.error(f"Insufficient funds: {wei_to_int(balance_wei)} < {wei_to_int(min_amount)} ETH, retry...")
+                if ETH_VOLUME_LEFT_ON_WALLET <= MIN_BALANCE_ETH[1]:
+                    logger.info(f"Try change ETH_VOLUME_LEFT_ON_WALLET in config to be more than {MIN_BALANCE_ETH[1]}")
                 time.sleep(5)
                 continue
             break
