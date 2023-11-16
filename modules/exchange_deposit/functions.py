@@ -24,7 +24,9 @@ def transfer_eth(account: Starknet, recipient, amount: float):
             break
         else:
             amount_wei = int_to_wei(amount)
-            if amount_wei + int_to_wei(get_min_balance_eth()) > balance_wei:
+            min_amount = amount_wei + int_to_wei(get_min_balance_eth())
+            if min_amount > balance_wei:
+                logger.error(f"Insufficient funds: {wei_to_int(balance_wei)} < {wei_to_int(min_amount)} ETH, retry...")
                 time.sleep(5)
                 continue
             break

@@ -16,6 +16,7 @@ from modules.nft.functions.starknet_id import nft_starknet_id
 from modules.nft.functions.starkverse import nft_starkverse
 from modules.nft.functions.unframed import nft_unframed
 from modules.swaps.functions.avnu import swap_token_avnu
+from modules.swaps.functions.open_ocean import swap_token_open_ocean
 from modules.swaps.functions.sithswap import swap_token_sithswap
 from modules.volume.helpers import check_wait_wallet_balance, get_okx_token_balance, get_okx_account
 from modules.zklend.functions.zklend_borrow import zklend_borrow_stable, get_max_borrow_amount
@@ -88,7 +89,7 @@ def run_one_wallet_volume(account: Starknet, recipient, cex_network):
             f"[{account._id}][{account.address_original}] swap USDC > USDT (step {step + 1}/{swap_repeats})"
         )
 
-        swap_function = random.choice([swap_token_avnu, swap_token_sithswap, swap_token_avnu])
+        swap_function = random.choice([swap_token_sithswap, swap_token_avnu, swap_token_avnu, swap_token_open_ocean, swap_token_open_ocean])
         run_script_one(account, swap_function, "0", [TOKEN_ADDRESS['USDC'], TOKEN_ADDRESS['USDT']], csv_name)
 
         check_wait_wallet_balance(account, max_borrow_usdc * 0.98, 'USDT', TOKEN_ADDRESS['USDT'])
