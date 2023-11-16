@@ -121,3 +121,5 @@ def run_random_unused_function(account: Starknet):
             run_script_one(account, random_fn, '', [], 'run_random_unused_function')
     else:
         logger.info(f'[{account._id}][{account.address_original}] No unused contracts left')
+        return False
+    return True

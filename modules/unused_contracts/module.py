@@ -15,7 +15,7 @@ def interface_unused_contracts():
             logger.error(f'No "starknet_address" provided in config/wallets.csv, skip.')
             continue
 
-        run_random_unused_function(account)
+        need_sleep = run_random_unused_function(account)
 
-        if _id < len(prt_keys) - 1:
+        if _id < len(prt_keys) - 1 and need_sleep:
             sleeping(MIN_SLEEP, MAX_SLEEP)
