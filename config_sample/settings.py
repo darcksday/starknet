@@ -25,7 +25,7 @@ MIN_SLEEP = 30
 MAX_SLEEP = 40
 
 # Swaps module settings
-SLIPPAGE_PCT = 1
+SLIPPAGE_PCT = 0.5
 
 # Minimal wallet balance (stay when we chose to swap all). Number or range [from, to]
 MIN_BALANCE_ETH = 0.001
