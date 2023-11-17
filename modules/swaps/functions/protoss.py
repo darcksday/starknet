@@ -5,7 +5,7 @@ from helpers.common import get_max_swap_amount_limited_dex
 from helpers.starknet import Starknet
 from modules.swaps.config import PROTOSS_CONTRACT, PROTOSS_ABI
 
-
+# Get min amount out
 def get_min_amount_out(contract, amount: int, slippage: float, path: list):
     min_amount_out_data = contract.functions["getAmountsOut"].prepare(
         amountIn=amount,

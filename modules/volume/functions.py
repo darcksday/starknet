@@ -79,6 +79,8 @@ def run_one_wallet_volume(account: Starknet, recipient, cex_network):
     if type(swap_repeats) is list:
         swap_repeats = random.randint(swap_repeats[0], swap_repeats[1])
 
+    swap_functions = [swap_token_avnu, swap_token_avnu, swap_token_sithswap, swap_token_open_ocean, swap_token_open_ocean]
+
     for step in range(swap_repeats):
         # 50% chance to run random function before each step
         rand_chance = random.randint(0, 1)
@@ -89,7 +91,7 @@ def run_one_wallet_volume(account: Starknet, recipient, cex_network):
             f"[{account._id}][{account.address_original}] swap USDC > USDT (step {step + 1}/{swap_repeats})"
         )
 
-        swap_function = random.choice([swap_token_sithswap, swap_token_avnu, swap_token_avnu, swap_token_open_ocean, swap_token_open_ocean])
+        swap_function = random.choice(swap_functions)
         run_script_one(account, swap_function, "0", [TOKEN_ADDRESS['USDC'], TOKEN_ADDRESS['USDT']], csv_name)
 
         check_wait_wallet_balance(account, max_borrow_usdc * 0.98, 'USDT', TOKEN_ADDRESS['USDT'])
@@ -98,7 +100,7 @@ def run_one_wallet_volume(account: Starknet, recipient, cex_network):
         logger.info(
             f"[{account._id}][{account.address_original}] swap USDT > USDC (step {step + 1}/{swap_repeats})"
         )
-        swap_function = random.choice([swap_token_avnu, swap_token_sithswap, swap_token_avnu])
+        swap_function = random.choice(swap_functions)
         run_script_one(account, swap_function, "0", [TOKEN_ADDRESS['USDT'], TOKEN_ADDRESS['USDC']], csv_name)
 
         check_wait_wallet_balance(account, max_borrow_usdc * 0.98, 'USDC', TOKEN_ADDRESS['USDC'])

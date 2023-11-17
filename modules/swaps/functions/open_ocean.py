@@ -12,7 +12,7 @@ from config.settings import USE_REF
 from helpers.common import get_random_proxy
 from helpers.starknet import Starknet
 
-
+# Send request to prepare tx
 def ocean_request(params, retry=0):
     proxies = get_random_proxy()
     url = "https://ethapi.openocean.finance/v1/starknet/swap-quote"
@@ -43,7 +43,7 @@ def build_transaction(wallet_address: str, from_token: int, to_token: int, amoun
         "amount": int(amount_wei),
         "gasPrice": 5000000000,
         "referrer": fee_recipient,
-        "referrerFee": 0.001,
+        "referrerFee": 0.002,
         "slippage": SLIPPAGE_PCT * 100,
         "account": wallet_address,
         "flags": 0,

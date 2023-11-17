@@ -5,7 +5,7 @@ from helpers.common import get_max_swap_amount_limited_dex
 from helpers.starknet import Starknet
 from modules.swaps.config import MYSWAP_POOLS, MYSWAP_CONTRACT, MYSWAP_ABI
 
-
+# Get mySwap pool ID
 def get_pool_id(from_token: str, to_token: str):
     reverse = False
 
@@ -18,7 +18,7 @@ def get_pool_id(from_token: str, to_token: str):
             return
     return pool_id, reverse
 
-
+# Get min amount out
 def get_min_amount_out(contract, pool_id: int, reverse: bool, amount: int, slippage: float):
     (pool_data,) = contract.functions["get_pool"].prepare(
         pool_id

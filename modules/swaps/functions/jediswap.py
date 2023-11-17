@@ -5,7 +5,7 @@ from helpers.common import get_max_swap_amount_limited_dex
 from helpers.starknet import Starknet
 from modules.swaps.config import *
 
-
+# Get min amount out
 def get_min_amount_out(contract, amount: int, path: list):
     min_amount_out_data = contract.functions["get_amounts_out"].prepare(
         amountIn=amount,

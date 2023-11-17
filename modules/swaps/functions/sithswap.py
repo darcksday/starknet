@@ -4,7 +4,7 @@ from config.settings import *
 from helpers.starknet import Starknet
 from modules.swaps.config import SITHSWAP_CONTRACT, SITHSWAP_ABI
 
-
+# Get min amount out
 def get_min_amount_out(contract, amount: int, slippage: float, path: list):
     min_amount_out_data = contract.functions["getAmountOut"].prepare(
         amount,
