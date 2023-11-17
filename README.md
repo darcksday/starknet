@@ -34,6 +34,7 @@ Install python on WSL2: https://www.cherryservers.com/blog/install-python-on-ubu
     - 10kSwap
     - SithSwap
     - Protoss
+    - OpenOcean
     - RANDOM SWAP: ETH > Random Token > ETH / Random Dex
 - NFT:
     - StarknetId
@@ -58,7 +59,7 @@ Install python on WSL2: https://www.cherryservers.com/blog/install-python-on-ubu
 - VOLUME: increase wallet tx volumes. Process step-by-step:
   Script withdraw ETH from OKX to your StarkNet wallet (amount include randomisation), then use zkLend to provide ETH as collateral and
   borrow USDC,
-  proceed to execute multiple USDC/USDT swaps on AVNU/SithSwap (the number of swaps can be configured in config/settings.py).
+  proceed to execute multiple USDC/USDT swaps on AVNU/SithSwap/OpenOcean (the number of swaps can be configured in config/settings.py).
   Before each swap step there is 50% chance to call random function to build unique route.
   Then we repay the borrowed USDC (script can buy some USDC to fully cover the borrowed amount - it makes a swap in a random DEX)
   and withdraw the locked ETH from zkLend. The final step is to return the ETH to OKX,

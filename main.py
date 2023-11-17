@@ -39,7 +39,7 @@ if __name__ == '__main__':
             cprint(f'11. Run one random function from routing (use config/routes.py)', 'yellow')
             cprint(f'12. Run all functions from routing randomly (use config/routes.py)', 'yellow')
             cprint(
-                f'13. Volume ({ETH_VOLUME_AMOUNT_PER_ACC} ETH): wallet by wallet / OKX > ZkLend > AVNU/SithSwap ({swaps_count} swaps) > ZkLend > OKX',
+                f'13. Volume ({ETH_VOLUME_AMOUNT_PER_ACC} ETH): wallet by wallet / OKX > ZkLend > AVNU/SithSwap/OpenOcean ({swaps_count} swaps) > ZkLend > OKX',
                 'yellow'
             )
             cprint(f'14. Find and run unused contract for wallet', 'yellow')
