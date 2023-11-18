@@ -60,14 +60,14 @@ SWAP_ROUTES = {
         },
         'function': swap_token_10kswap
     },
-    'swap_token_open_ocean': {
-        'tokens': {
-            TOKEN_ADDRESS['USDC'],
-            # TOKEN_ADDRESS['WBTC'],
-            TOKEN_ADDRESS['DAI'],
-            TOKEN_ADDRESS['USDT']
-        },
-        'function': swap_token_open_ocean
-    },
+    # 'swap_token_open_ocean': {
+    #     'tokens': {
+    #         TOKEN_ADDRESS['USDC'],
+    #         # TOKEN_ADDRESS['WBTC'],
+    #         TOKEN_ADDRESS['DAI'],
+    #         TOKEN_ADDRESS['USDT']
+    #     },
+    #     'function': swap_token_open_ocean
+    # },
 
 }
