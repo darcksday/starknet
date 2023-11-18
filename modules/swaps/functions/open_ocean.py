@@ -12,8 +12,9 @@ from config.settings import USE_REF
 from helpers.common import get_random_proxy
 from helpers.starknet import Starknet
 
+
 # Send request to prepare tx
-def ocean_request(params, retry=0):
+def ocean_request(params, show_errors, retry=0):
     proxies = get_random_proxy()
     url = "https://ethapi.openocean.finance/v1/starknet/swap-quote"
 
@@ -23,15 +24,16 @@ def ocean_request(params, retry=0):
         if 'transaction' in response and response['msg'] == 'ok':
             return response
 
-    if retry < 5:
-        cprint(f'Error: status code {response_req.status_code}, retry...', 'red')
+    if retry < 3:
+        if show_errors:
+            cprint(f'Error: status code {response_req.status_code}, retry...', 'red')
         time.sleep(1)
-        return ocean_request(params, retry + 1)
+        return ocean_request(params, show_errors, retry + 1)
     else:
         raise Exception(f'SKIP. Response error')
 
 
-def build_transaction(wallet_address: str, from_token: int, to_token: int, amount_wei: int):
+def build_transaction(wallet_address: str, from_token: int, to_token: int, amount_wei: int, show_errors=True):
     token_symbols = {v: k for k, v in TOKEN_ADDRESS.items()}
     fee_recipient = "0x00860d7dd27b165979a5a5c0b1ca44fb53a756ed80848613931dacb6a58ff5a0"
 
@@ -56,7 +58,7 @@ def build_transaction(wallet_address: str, from_token: int, to_token: int, amoun
             "referrerFee": 0.003
         })
 
-    return ocean_request(params)
+    return ocean_request(params, show_errors)
 
 
 def swap_token_open_ocean(account: Starknet, amount, from_token, to_token):

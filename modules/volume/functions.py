@@ -5,6 +5,7 @@ from loguru import logger
 from common import TOKEN_ADDRESS
 from config.settings import *
 from helpers.cli import sleeping
+from helpers.common import int_to_wei
 from helpers.factory import run_script_one
 from helpers.starknet import Starknet
 from modules.activate_new.module import activate_wallet
@@ -16,7 +17,7 @@ from modules.nft.functions.starknet_id import nft_starknet_id
 from modules.nft.functions.starkverse import nft_starkverse
 from modules.nft.functions.unframed import nft_unframed
 from modules.swaps.functions.avnu import swap_token_avnu
-from modules.swaps.functions.open_ocean import swap_token_open_ocean
+from modules.swaps.functions.open_ocean import swap_token_open_ocean, build_transaction
 from modules.swaps.functions.sithswap import swap_token_sithswap
 from modules.volume.helpers import check_wait_wallet_balance, get_okx_token_balance, get_okx_account
 from modules.zklend.functions.zklend_borrow import zklend_borrow_stable, get_max_borrow_amount
@@ -68,18 +69,29 @@ def run_one_wallet_volume(account: Starknet, recipient, cex_network):
 
     # Borrow USDC
     max_borrow_usdc = get_max_borrow_amount(account, 'USDC')
+    max_borrow_pct = 0.99 if max_borrow_usdc >= 1500 else 0.98
     run_script_one(account, zklend_borrow_stable, "0", [TOKEN_ADDRESS['USDC']], csv_name)
 
-    check_wait_wallet_balance(account, max_borrow_usdc * 0.99, 'USDC', TOKEN_ADDRESS['USDC'])
+    check_wait_wallet_balance(account, max_borrow_usdc * max_borrow_pct, 'USDC', TOKEN_ADDRESS['USDC'])
     sleeping(MIN_SLEEP, MAX_SLEEP)
 
     # ---------------- Swap USDC/USDT ----------------
 
+    try:
+        build_transaction(
+            account.address_original,
+            TOKEN_ADDRESS['USDC'],
+            TOKEN_ADDRESS['USDT'],
+            int_to_wei(max_borrow_usdc, 6),
+            False
+        )
+        swap_functions = [swap_token_avnu, swap_token_avnu, swap_token_sithswap, swap_token_open_ocean, swap_token_open_ocean]
+    except Exception:
+        swap_functions = [swap_token_avnu, swap_token_avnu, swap_token_sithswap]
+
     swap_repeats = VOLUME_SWAP_REPEATS
     if type(swap_repeats) is list:
         swap_repeats = random.randint(swap_repeats[0], swap_repeats[1])
-
-    swap_functions = [swap_token_avnu, swap_token_avnu, swap_token_sithswap, swap_token_open_ocean, swap_token_open_ocean]
 
     for step in range(swap_repeats):
         # 50% chance to run random function before each step
@@ -94,7 +106,7 @@ def run_one_wallet_volume(account: Starknet, recipient, cex_network):
         swap_function = random.choice(swap_functions)
         run_script_one(account, swap_function, "0", [TOKEN_ADDRESS['USDC'], TOKEN_ADDRESS['USDT']], csv_name)
 
-        check_wait_wallet_balance(account, max_borrow_usdc * 0.98, 'USDT', TOKEN_ADDRESS['USDT'])
+        check_wait_wallet_balance(account, max_borrow_usdc * max_borrow_pct, 'USDT', TOKEN_ADDRESS['USDT'])
         sleeping(MIN_SLEEP, MAX_SLEEP)
 
         logger.info(
@@ -103,7 +115,7 @@ def run_one_wallet_volume(account: Starknet, recipient, cex_network):
         swap_function = random.choice(swap_functions)
         run_script_one(account, swap_function, "0", [TOKEN_ADDRESS['USDT'], TOKEN_ADDRESS['USDC']], csv_name)
 
-        check_wait_wallet_balance(account, max_borrow_usdc * 0.98, 'USDC', TOKEN_ADDRESS['USDC'])
+        check_wait_wallet_balance(account, max_borrow_usdc * max_borrow_pct, 'USDC', TOKEN_ADDRESS['USDC'])
         sleeping(MIN_SLEEP, MAX_SLEEP)
 
     # ------------- zkLend - repay USDC ---------------
