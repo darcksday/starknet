@@ -98,7 +98,8 @@ def get_random_proxy():
 
 def all_prices():
     currency_price = []
-    response = requests.get(url=f'https://api.gateio.ws/api/v4/spot/tickers')
+    proxies = get_random_proxy()
+    response = requests.get(url=f'https://api.gateio.ws/api/v4/spot/tickers', proxies=proxies)
     currency_price.append(response.json())
     return currency_price
 
@@ -124,6 +125,7 @@ def get_max_swap_amount_limited_dex(token_address, amount: float):
 
     if amount > max_amount:
         raise Exception(f"Amount '{amount}' is too big, you can lost your money on this DEX (no liquidity)")
+
 
 def get_min_balance_eth():
     if type(MIN_BALANCE_ETH) == list:
