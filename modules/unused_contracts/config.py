@@ -1,4 +1,5 @@
 from modules.nft.functions.flex import nft_flex
+from modules.nft.functions.gol2 import nft_gol2
 from modules.nostra.config import NOSTRA_CONTRACTS
 from modules.swaps.config import *
 from modules.nft.config import *
@@ -33,4 +34,5 @@ ALL_CONTRACT_FUNCTIONS = {
     AVNU_CONTRACT: swap_token_avnu,
     ZKLEND_CONCTRACTS['router']: [zklend_deposit, zklend_withdraw],
     NOSTRA_CONTRACTS['ETH']: [nostra_deposit, nostra_withdraw],
+    GOL2_CONTRACT: nft_gol2
 }

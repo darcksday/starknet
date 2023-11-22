@@ -1,6 +1,7 @@
 from termcolor import cprint
 from helpers.factory import run_script, run_random_function
 from modules.nft.functions.flex import nft_flex
+from modules.nft.functions.gol2 import nft_gol2
 from modules.nft.functions.starknet_id import nft_starknet_id
 from modules.nft.functions.starkstars import nft_starkstars
 from modules.nft.functions.starkverse import nft_starkverse
@@ -17,6 +18,7 @@ def interface_nft():
             cprint(f'3. StarkStars mint NFT (0.0001 ETH)', 'yellow')
             cprint(f'4. Unframed marketplace call (cheap tx)', 'yellow')
             cprint(f'5. Flex marketplace call (cheap tx)', 'yellow')
+            cprint(f'6. Mint GoL2 token', 'yellow')
             cprint(f'10. RANDOM: Call random NFT function', 'yellow')
             try:
                 option = int(input("> "))
@@ -28,7 +30,7 @@ def interface_nft():
                 cprint(f'Exit, bye bye.', 'green')
                 break
 
-            elif 5 >= option >= 1:
+            elif 6 >= option >= 1:
                 # chose nft function
                 run_script(function_by_index(option), "0", [])
                 break
@@ -62,5 +64,7 @@ def function_by_index(index):
         return nft_unframed
     elif index == 5:
         return nft_flex
+    elif index == 6:
+        return nft_gol2
     else:
         return None
