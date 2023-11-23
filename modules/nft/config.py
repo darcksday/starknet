@@ -8,6 +8,8 @@ UNFRAMED_CONTRACT = 0x051734077ba7baf5765896c56ce10b389d80cdcee8622e23c0556fb49e
 
 FLEX_CONTRACT = 0x04b1b3fdf34d00288a7956e6342fb366a1510a9387d321c87f3301d990ac19d4
 
+GOL2_CONTRACT = 0x06a05844a03bb9e744479e3298f54705a35966ab04140d3d8dd797c1f6dc49d0
+
 STARK_STARS_CONTRACTS = [
     0x4d70758d392e0563a8a0076d4b72847048dea7d65199c50eabc8e855ca62931,
     0x2ac5be4b280f6625a56b944bab9d985fbbc9f180ff4b08b854b63d284b7f6ae,
@@ -39,3 +41,6 @@ with open('abi/unframed/abi.json') as file:
 
 with open('abi/starkstars/abi.json') as file:
     STARKSTARS_ABI = json.load(file)
+
+with open('abi/gol2/abi.json') as file:
+    GOL2_ABI = json.load(file)

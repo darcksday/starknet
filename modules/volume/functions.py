@@ -100,20 +100,20 @@ def run_one_wallet_volume(account: Starknet, recipient, cex_network):
             random_call_before_swaps(account, step)
 
         logger.info(
-            f"[{account._id}][{account.address_original}] swap USDC > USDT (step {step + 1}/{swap_repeats})"
+            f"[{account._id}][{account.address_original}] swap USDC > DAI (step {step + 1}/{swap_repeats})"
         )
 
         swap_function = random.choice(swap_functions)
-        run_script_one(account, swap_function, "0", [TOKEN_ADDRESS['USDC'], TOKEN_ADDRESS['USDT']], csv_name)
+        run_script_one(account, swap_function, "0", [TOKEN_ADDRESS['USDC'], TOKEN_ADDRESS['DAI']], csv_name)
 
-        check_wait_wallet_balance(account, max_borrow_usdc * max_borrow_pct, 'USDT', TOKEN_ADDRESS['USDT'])
+        check_wait_wallet_balance(account, max_borrow_usdc * max_borrow_pct, 'DAI', TOKEN_ADDRESS['DAI'])
         sleeping(MIN_SLEEP, MAX_SLEEP)
 
         logger.info(
-            f"[{account._id}][{account.address_original}] swap USDT > USDC (step {step + 1}/{swap_repeats})"
+            f"[{account._id}][{account.address_original}] swap DAI > USDC (step {step + 1}/{swap_repeats})"
         )
         swap_function = random.choice(swap_functions)
-        run_script_one(account, swap_function, "0", [TOKEN_ADDRESS['USDT'], TOKEN_ADDRESS['USDC']], csv_name)
+        run_script_one(account, swap_function, "0", [TOKEN_ADDRESS['DAI'], TOKEN_ADDRESS['USDC']], csv_name)
 
         check_wait_wallet_balance(account, max_borrow_usdc * max_borrow_pct, 'USDC', TOKEN_ADDRESS['USDC'])
         sleeping(MIN_SLEEP, MAX_SLEEP)
