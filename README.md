@@ -55,6 +55,9 @@ Install python on WSL2: https://www.cherryservers.com/blog/install-python-on-ubu
     - Deposit
     - Withdraw
     - ROUTE: Deposit ETH > Withdraw ETH
+- Deploy smart-contract
+    - Token
+    - NFT
 - MULTIPLE Functions: make one or multiple random transactions.
 - VOLUME: increase wallet tx volumes. Process step-by-step:
   Script withdraw ETH from OKX to your StarkNet wallet (amount include randomisation), then use zkLend to provide ETH as collateral and
