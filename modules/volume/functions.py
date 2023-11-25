@@ -77,17 +77,17 @@ def run_one_wallet_volume(account: Starknet, recipient, cex_network):
 
     # ---------------- Swap USDC/USDT ----------------
 
-    # try:
-    #     build_transaction(
-    #         account.address_original,
-    #         TOKEN_ADDRESS['USDC'],
-    #         TOKEN_ADDRESS['USDT'],
-    #         int_to_wei(max_borrow_usdc, 6),
-    #         False
-    #     )
-    #     swap_functions = [swap_token_avnu, swap_token_avnu, swap_token_sithswap, swap_token_open_ocean, swap_token_open_ocean]
-    # except Exception:
-    swap_functions = [swap_token_avnu, swap_token_avnu, swap_token_sithswap]
+    try:
+        build_transaction(
+            account.address_original,
+            TOKEN_ADDRESS['USDC'],
+            TOKEN_ADDRESS['USDT'],
+            int_to_wei(max_borrow_usdc, 6),
+            False
+        )
+        swap_functions = [swap_token_avnu, swap_token_avnu, swap_token_sithswap, swap_token_open_ocean, swap_token_open_ocean]
+    except Exception:
+        swap_functions = [swap_token_avnu, swap_token_avnu, swap_token_sithswap]
 
     swap_repeats = VOLUME_SWAP_REPEATS
     if type(swap_repeats) is list:
@@ -100,20 +100,20 @@ def run_one_wallet_volume(account: Starknet, recipient, cex_network):
             random_call_before_swaps(account, step)
 
         logger.info(
-            f"[{account._id}][{account.address_original}] swap USDC > DAI (step {step + 1}/{swap_repeats})"
+            f"[{account._id}][{account.address_original}] swap USDC > USDT (step {step + 1}/{swap_repeats})"
         )
 
         swap_function = random.choice(swap_functions)
-        run_script_one(account, swap_function, "0", [TOKEN_ADDRESS['USDC'], TOKEN_ADDRESS['DAI']], csv_name)
+        run_script_one(account, swap_function, "0", [TOKEN_ADDRESS['USDC'], TOKEN_ADDRESS['USDT']], csv_name)
 
-        check_wait_wallet_balance(account, max_borrow_usdc * max_borrow_pct, 'DAI', TOKEN_ADDRESS['DAI'])
+        check_wait_wallet_balance(account, max_borrow_usdc * max_borrow_pct, 'USDT', TOKEN_ADDRESS['USDT'])
         sleeping(MIN_SLEEP, MAX_SLEEP)
 
         logger.info(
-            f"[{account._id}][{account.address_original}] swap DAI > USDC (step {step + 1}/{swap_repeats})"
+            f"[{account._id}][{account.address_original}] swap USDT > USDC (step {step + 1}/{swap_repeats})"
         )
         swap_function = random.choice(swap_functions)
-        run_script_one(account, swap_function, "0", [TOKEN_ADDRESS['DAI'], TOKEN_ADDRESS['USDC']], csv_name)
+        run_script_one(account, swap_function, "0", [TOKEN_ADDRESS['USDT'], TOKEN_ADDRESS['USDC']], csv_name)
 
         check_wait_wallet_balance(account, max_borrow_usdc * max_borrow_pct, 'USDC', TOKEN_ADDRESS['USDC'])
         sleeping(MIN_SLEEP, MAX_SLEEP)

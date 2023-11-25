@@ -98,10 +98,10 @@ def run_random_unused_function(account: Starknet):
         if isinstance(random_fn, list):
             logger.info(
                 f'[{account._id}][{account.address_original}] Random chosen: "{random_fn[0].__name__}". Unused contracts left: {len(filtered_contracts)}')
-            run_script_one(account, random_fn[0], '', [])
+            run_script_one(account, random_fn[0], '', [], random_fn[0].__name__)
 
             sleeping(30, 120)
-            run_script_one(account, random_fn[1], '', [])
+            run_script_one(account, random_fn[1], '', [], random_fn[1].__name__)
 
         elif random_fn.__name__ in SWAP_ROUTES:
             f_name = random_fn.__name__
