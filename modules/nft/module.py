@@ -42,6 +42,7 @@ def interface_nft():
                     nft_starkverse,
                     nft_unframed,
                     nft_flex,
+                    nft_gol2,
                 ])
                 break
             else:

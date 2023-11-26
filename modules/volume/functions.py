@@ -77,17 +77,17 @@ def run_one_wallet_volume(account: Starknet, recipient, cex_network):
 
     # ---------------- Swap USDC/USDT ----------------
 
-    try:
-        build_transaction(
-            account.address_original,
-            TOKEN_ADDRESS['USDC'],
-            TOKEN_ADDRESS['USDT'],
-            int_to_wei(max_borrow_usdc, 6),
-            False
-        )
-        swap_functions = [swap_token_avnu, swap_token_avnu, swap_token_sithswap, swap_token_open_ocean, swap_token_open_ocean]
-    except Exception:
-        swap_functions = [swap_token_avnu, swap_token_avnu, swap_token_sithswap]
+    # try:
+    #     build_transaction(
+    #         account.address_original,
+    #         TOKEN_ADDRESS['USDC'],
+    #         TOKEN_ADDRESS['USDT'],
+    #         int_to_wei(max_borrow_usdc, 6),
+    #         False
+    #     )
+    #     swap_functions = [swap_token_avnu, swap_token_avnu, swap_token_sithswap, swap_token_open_ocean, swap_token_open_ocean]
+    # except Exception:
+    swap_functions = [swap_token_avnu, swap_token_avnu, swap_token_sithswap]
 
     swap_repeats = VOLUME_SWAP_REPEATS
     if type(swap_repeats) is list:

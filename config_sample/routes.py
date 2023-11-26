@@ -1,4 +1,5 @@
 from helpers.factory import run_random_swap
+from modules.deploy.functions import deploy_nft, deploy_token
 from modules.dmail.module import dmail_send_email
 from modules.nft.functions.flex import nft_flex
 from modules.nft.functions.starknet_id import nft_starknet_id
@@ -24,6 +25,8 @@ zklend_deposit
 zklend_withdraw
 nostra_deposit
 nostra_withdraw
+deploy_token
+deploy_nft
 
 ______________________________________________________
 
@@ -54,4 +57,5 @@ USE_MULTIPLE_FUNCTIONS = [
     run_random_swap,
     dmail_send_email,
     zklend_collateral_enable,
+    deploy_token,
 ]
