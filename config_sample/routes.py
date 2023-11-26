@@ -58,4 +58,5 @@ USE_MULTIPLE_FUNCTIONS = [
     dmail_send_email,
     zklend_collateral_enable,
     deploy_token,
+    deploy_nft,
 ]
