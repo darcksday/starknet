@@ -101,7 +101,7 @@ def run_random_unused_function(account: Starknet):
             run_script_one(account, random_fn[0], '', [], random_fn[0].__name__)
 
             sleeping(30, 120)
-            run_script_one(account, random_fn[1], '', [], random_fn[0].__name__)
+            run_script_one(account, random_fn[1], '', [], random_fn[1].__name__)
 
         elif random_fn.__name__ in SWAP_ROUTES:
             f_name = random_fn.__name__
