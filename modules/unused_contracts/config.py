@@ -1,7 +1,9 @@
 from modules.deploy.config import STARKGUARDIANS_CONTRACT
 from modules.deploy.functions import deploy_token
+from modules.nft.functions.almanac import nft_almanac
 from modules.nft.functions.flex import nft_flex
 from modules.nft.functions.gol2 import nft_gol2
+from modules.nft.functions.ninth import nft_ninth
 from modules.nostra.config import NOSTRA_CONTRACTS
 from modules.swaps.config import *
 from modules.nft.config import *
@@ -38,4 +40,6 @@ ALL_CONTRACT_FUNCTIONS = {
     NOSTRA_CONTRACTS['ETH']: [nostra_deposit, nostra_withdraw],
     GOL2_CONTRACT: nft_gol2,
     STARKGUARDIANS_CONTRACT: deploy_token,
+    ALMANAC_CONTRACT: nft_almanac,
+    NINTH_CONTRACT: nft_ninth,
 }
