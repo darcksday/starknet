@@ -10,6 +10,10 @@ FLEX_CONTRACT = 0x04b1b3fdf34d00288a7956e6342fb366a1510a9387d321c87f3301d990ac19
 
 GOL2_CONTRACT = 0x06a05844a03bb9e744479e3298f54705a35966ab04140d3d8dd797c1f6dc49d0
 
+ALMANAC_CONTRACT = 0x07d4dc2bf13ede97b9e458dc401d4ff6dd386a02049de879ebe637af8299f91d
+
+NINTH_CONTRACT = 0x07038b75cd6557f4c788971eacc37cf6554acad7146398d42bcc7da3a05b5218
+
 STARK_STARS_CONTRACTS = [
     0x4d70758d392e0563a8a0076d4b72847048dea7d65199c50eabc8e855ca62931,
     0x2ac5be4b280f6625a56b944bab9d985fbbc9f180ff4b08b854b63d284b7f6ae,
@@ -44,3 +48,9 @@ with open('abi/starkstars/abi.json') as file:
 
 with open('abi/gol2/abi.json') as file:
     GOL2_ABI = json.load(file)
+
+with open('abi/almanac/abi.json') as file:
+    ALMANAC_ABI = json.load(file)
+
+with open('abi/ninth/abi.json') as file:
+    NINTH_ABI = json.load(file)

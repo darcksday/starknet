@@ -1,7 +1,9 @@
 from termcolor import cprint
 from helpers.factory import run_script, run_random_function
+from modules.nft.functions.almanac import nft_almanac
 from modules.nft.functions.flex import nft_flex
 from modules.nft.functions.gol2 import nft_gol2
+from modules.nft.functions.ninth import nft_ninth
 from modules.nft.functions.starknet_id import nft_starknet_id
 from modules.nft.functions.starkstars import nft_starkstars
 from modules.nft.functions.starkverse import nft_starkverse
@@ -19,6 +21,8 @@ def interface_nft():
             cprint(f'4. Unframed marketplace call (cheap tx)', 'yellow')
             cprint(f'5. Flex marketplace call (cheap tx)', 'yellow')
             cprint(f'6. Mint GoL2 token', 'yellow')
+            cprint(f'7. Almanac approve (cheap tx)', 'yellow')
+            cprint(f'8. The Ninth approve (cheap tx)', 'yellow')
             cprint(f'10. RANDOM: Call random NFT function', 'yellow')
             try:
                 option = int(input("> "))
@@ -30,7 +34,7 @@ def interface_nft():
                 cprint(f'Exit, bye bye.', 'green')
                 break
 
-            elif 6 >= option >= 1:
+            elif 8 >= option >= 1:
                 # chose nft function
                 run_script(function_by_index(option), "0", [])
                 break
@@ -43,6 +47,8 @@ def interface_nft():
                     nft_unframed,
                     nft_flex,
                     nft_gol2,
+                    nft_almanac,
+                    nft_ninth,
                 ])
                 break
             else:
@@ -67,5 +73,9 @@ def function_by_index(index):
         return nft_flex
     elif index == 6:
         return nft_gol2
+    elif index == 7:
+        return nft_almanac
+    elif index == 8:
+        return nft_ninth
     else:
         return None

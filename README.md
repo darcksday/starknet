@@ -42,6 +42,8 @@ Install python on WSL2: https://www.cherryservers.com/blog/install-python-on-ubu
     - Unframed
     - Flex
     - StarkStars
+    - Almanac
+    - The Ninth
     - RANDOM: Call random NFT function
 - ZkLend:
     - Deposit (supply)

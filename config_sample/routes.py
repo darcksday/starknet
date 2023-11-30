@@ -1,7 +1,9 @@
 from helpers.factory import run_random_swap
 from modules.deploy.functions import deploy_nft, deploy_token
 from modules.dmail.module import dmail_send_email
+from modules.nft.functions.almanac import nft_almanac
 from modules.nft.functions.flex import nft_flex
+from modules.nft.functions.ninth import nft_ninth
 from modules.nft.functions.starknet_id import nft_starknet_id
 from modules.nft.functions.starkverse import nft_starkverse
 from modules.nft.functions.unframed import nft_unframed
@@ -27,7 +29,9 @@ nostra_deposit
 nostra_withdraw
 deploy_token
 deploy_nft
-
+nft_almanac
+nft_ninth
+    
 ______________________________________________________
 
 You can add functions to [], for example: 
@@ -59,4 +63,6 @@ USE_MULTIPLE_FUNCTIONS = [
     zklend_collateral_enable,
     deploy_token,
     deploy_nft,
+    nft_almanac,
+    nft_ninth,
 ]
