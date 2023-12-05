@@ -4,6 +4,7 @@ from config.routes import USE_MULTIPLE_FUNCTIONS
 from helpers.factory import run_script, run_multiple, run_one_of_multiple
 from modules.activate_new.module import interface_deploy_argent_wallet
 from modules.balance.module import interface_check_balance
+from modules.change_owner.module import interface_change_owner
 from modules.deploy.module import interface_deploy
 from modules.dmail.module import dmail_send_email
 from modules.exchange_withdraw.module import interface_exchange_withdraw
@@ -46,6 +47,8 @@ if __name__ == '__main__':
             cprint(f'14. Find and run unused contract for wallet', 'yellow')
             cprint(f'15. Deploy new argent wallets', 'yellow')
             cprint(f'16. Deploy smart-contract: FT/NFT', 'yellow')
+            cprint(f'17. Change wallet owner', 'yellow')
+
 
             try:
                 option = int(input("> "))
@@ -119,6 +122,11 @@ if __name__ == '__main__':
 
             elif option == 16:
                 interface_deploy()
+                break
+
+
+            elif option == 17:
+                interface_change_owner()
                 break
 
             else:

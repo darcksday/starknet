@@ -41,6 +41,7 @@ def get_private_keys():
                 "starknet_private_key": row['starknet_private_key'].strip(),
                 "starknet_address": row['starknet_address'].strip(),
                 "web3_private_key": row['web3_private_key'].strip(),
+                "new_private_key": row['new_private_key'].strip(),
                 'recipient': ""
             } for index, row in enumerate(reader) if row['starknet_private_key'].strip()]
 

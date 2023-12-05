@@ -27,19 +27,28 @@ class Starknet:
         self._id = _id + 1
         self.private_key = wallet_data['starknet_private_key']
         self.key_pair = KeyPair.from_private_key(self.private_key)
+
+
         if len(CUSTOM_RPC) > 0:
             self.client = FullNodeClient(random.choice(RPC["starknet"]["rpc"]))
         else:
             self.client = GatewayClient("mainnet")
 
         self.address_original = wallet_data['starknet_address']
+
+
+
         self.address = self._create_account()
+
         self.account = Account(
-            address=self.address,
+            address =  self.address_original if  len(self.address_original) else self.address,
             client=self.client,
             key_pair=self.key_pair,
             chain=StarknetChainId.MAINNET,
         )
+
+        self.address = self.account.address
+
         self.account.ESTIMATED_FEE_MULTIPLIER = WEB3_FEE_MULTIPLIER
         self.explorer = RPC["starknet"]["explorer"]
         if wallet_data['web3_private_key'] is not None and len(wallet_data['web3_private_key']) > 0:
