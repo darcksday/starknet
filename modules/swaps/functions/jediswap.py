@@ -1,7 +1,7 @@
 import time
 from loguru import logger
 from config.settings import *
-from helpers.common import get_max_swap_amount_limited_dex
+from helpers.common import get_max_swap_amount_limited_dex, wei_to_int
 from helpers.starknet import Starknet
 from modules.swaps.config import *
 
@@ -23,7 +23,7 @@ def swap_token_jediswap(account: Starknet, amount, from_token, to_token):
 
     get_max_swap_amount_limited_dex(from_token, amount)
     amount_wei = account.get_swap_amount(from_token, amount)
-    if not amount_wei:
+    if not amount_wei or wei_to_int(amount_wei) < 0.5:
         return False
 
     path = [from_token, to_token]

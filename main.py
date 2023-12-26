@@ -1,4 +1,4 @@
-from config.settings import ETH_VOLUME_AMOUNT_PER_ACC, VOLUME_SWAP_REPEATS
+from config.settings import ETH_VOLUME_AMOUNT_PER_ACC, VOLUME_SWAP_REPEATS, CUSTOM_RPC
 from helpers.cli import *
 from config.routes import USE_MULTIPLE_FUNCTIONS
 from helpers.factory import run_script, run_multiple, run_one_of_multiple

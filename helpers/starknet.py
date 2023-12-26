@@ -1,5 +1,5 @@
-import time
 import random
+import time
 import sys
 
 from typing import Union, List
@@ -11,7 +11,6 @@ from starknet_py.hash.selector import get_selector_from_name
 from starknet_py.net.account.account import Account
 from starknet_py.net.client_models import Call
 from starknet_py.net.full_node_client import FullNodeClient
-from starknet_py.net.gateway_client import GatewayClient
 from starknet_py.net.models import StarknetChainId, Invoke
 from starknet_py.net.signer.stark_curve_signer import KeyPair
 from helpers.retry import retry
@@ -27,10 +26,10 @@ class Starknet:
         self._id = _id + 1
         self.private_key = wallet_data['starknet_private_key']
         self.key_pair = KeyPair.from_private_key(self.private_key)
-        if len(CUSTOM_RPC) > 0:
+        if not CUSTOM_RPC:
             self.client = FullNodeClient(random.choice(RPC["starknet"]["rpc"]))
         else:
-            self.client = GatewayClient("mainnet")
+            self.client = FullNodeClient(CUSTOM_RPC)
 
         self.address_original = wallet_data['starknet_address']
         self.address = self._create_account()

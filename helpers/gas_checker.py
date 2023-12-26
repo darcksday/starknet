@@ -1,17 +1,23 @@
-from starknet_py.net.gateway_client import GatewayClient
-from config.settings import CHECK_GWEI, MAX_GWEI, MIN_SLEEP, MAX_SLEEP
+import random
+
+from common import RPC
+from config.settings import *
 from web3 import Web3
 from loguru import logger
 
 from helpers.cli import sleeping
 from helpers.retry import retry
+from starknet_py.net.full_node_client import FullNodeClient
 
 
 @retry
 def get_gas():
-    client = GatewayClient("mainnet")
+    if not CUSTOM_RPC:
+        client = FullNodeClient(random.choice(RPC["starknet"]["rpc"]))
+    else:
+        client = FullNodeClient(CUSTOM_RPC)
     block_data = client.get_block_sync("latest")
-    gas = Web3.from_wei(block_data.gas_price, "gwei")
+    gas = Web3.from_wei(block_data.l1_gas_price.price_in_wei, "gwei")
     return gas
 
 
