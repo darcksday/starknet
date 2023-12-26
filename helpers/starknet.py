@@ -35,7 +35,7 @@ class Starknet:
         self.address = self._create_account()
 
         self.account = Account(
-            address =  self.address_original if  len(self.address_original) else self.address,
+            address=self.address_original if len(self.address_original) else self.address,
             client=self.client,
             key_pair=self.key_pair,
             chain=StarknetChainId.MAINNET,

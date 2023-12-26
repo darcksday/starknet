@@ -17,7 +17,7 @@ def get_gas():
     else:
         client = FullNodeClient(CUSTOM_RPC)
     block_data = client.get_block_sync("latest")
-    gas = Web3.from_wei(block_data.l1_gas_price.price_in_wei, "gwei")
+    gas = Web3.from_wei(block_data.gas_price, "gwei")
     return gas
 
 
