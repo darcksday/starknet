@@ -35,7 +35,7 @@ def ocean_request(params, show_errors, retry=0):
 
 def build_transaction(wallet_address: str, from_token: int, to_token: int, amount_wei: int, show_errors=True):
     token_symbols = {v: k for k, v in TOKEN_ADDRESS.items()}
-    fee_recipient = "0x00860d7dd27b165979a5a5c0b1ca44fb53a756ed80848613931dacb6a58ff5a0"
+    # fee_recipient = "0x00860d7dd27b165979a5a5c0b1ca44fb53a756ed80848613931dacb6a58ff5a0"
 
     params = {
         "inTokenSymbol": token_symbols.get(from_token),
@@ -44,19 +44,19 @@ def build_transaction(wallet_address: str, from_token: int, to_token: int, amoun
         "outTokenAddress": hex(to_token),
         "amount": int(amount_wei),
         "gasPrice": 5000000000,
-        "referrer": fee_recipient,
-        "referrerFee": 0.002,
+        # "referrer": fee_recipient,
+        # "referrerFee": 0.002,
         "slippage": SLIPPAGE_PCT * 100,
         "account": wallet_address,
         "flags": 0,
     }
 
     # 0.003% fee
-    if USE_REF:
-        params.update({
-            "referrer": fee_recipient,
-            "referrerFee": 0.003
-        })
+    # if USE_REF:
+    #     params.update({
+    #         "referrer": fee_recipient,
+    #         "referrerFee": 0.003
+    #     })
 
     return ocean_request(params, show_errors)
 

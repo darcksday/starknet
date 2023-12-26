@@ -16,14 +16,14 @@ def get_quotes(from_token: int, to_token: int, amount: int):
         "sellTokenAddress": hex(from_token),
         "buyTokenAddress": hex(to_token),
         "sellAmount": hex(amount),
-        "integratorFees": hex(2),
-        "integratorFeeRecipient": fees,
+        # "integratorFees": hex(2),
+        # "integratorFeeRecipient": fees,
         "excludeSources": "Ekubo",
     }
 
-    if USE_REF:
-        params['integratorFees'] = hex(3)
-        params['integratorFeeRecipient'] = fees
+    # if USE_REF:
+    #     params['integratorFees'] = hex(3)
+    #     params['integratorFeeRecipient'] = fees
 
     proxies = get_random_proxy()
     response = requests.get(url, params=params, proxies=proxies)
