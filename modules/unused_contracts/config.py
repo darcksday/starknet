@@ -39,7 +39,7 @@ ALL_CONTRACT_FUNCTIONS = {
     # ZKLEND_CONCTRACTS['router']: [zklend_deposit, zklend_withdraw],
     # NOSTRA_CONTRACTS['ETH']: [nostra_deposit, nostra_withdraw],
     GOL2_CONTRACT: nft_gol2,
-    # STARKGUARDIANS_CONTRACT: deploy_token,
+    STARKGUARDIANS_CONTRACT: deploy_token,
     ALMANAC_CONTRACT: nft_almanac,
     NINTH_CONTRACT: nft_ninth,
 }

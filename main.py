@@ -11,6 +11,7 @@ from modules.exchange_withdraw.module import interface_exchange_withdraw
 from modules.nft.module import interface_nft
 from modules.nostra.module import interface_nostra
 from modules.orbiter_bridge.module import interface_orbiter_bridge
+from modules.snyper.module import interface_snyper
 from modules.swaps.module import interface_swaps
 from modules.exchange_deposit.module import interface_transfer_to_exchange
 from modules.tx_count.module import interface_tx_count
@@ -125,12 +126,27 @@ if __name__ == '__main__':
                 break
 
 
+
+
             elif option == 17:
+
                 interface_change_owner()
+
+                break
+
+
+
+
+            elif option == 18:
+
+                interface_snyper()
+
                 break
 
             else:
+
                 cprint(f'Wrong action. Please try again.\n', 'red')
+
                 continue
 
     except KeyboardInterrupt:

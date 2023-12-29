@@ -81,6 +81,7 @@ def change_owner(account, new_private_key,csv_name):
         )
         transaction = account.sign_transaction([call])
 
+
         transaction_response = account.send_transaction(transaction)
         account.wait_until_tx_finished(transaction_response.transaction_hash)
 
@@ -94,13 +95,7 @@ def change_owner(account, new_private_key,csv_name):
             'date': formatted_datetime,
         })
 
+
     except Exception as e:
 
-        write_csv_error(csv_name, [
-            account.address_original,
-            account.private_key,
-            'activate_wallet',
-            [],
-            e,
-            formatted_datetime
-        ])
+        logger.error(f'Error: {e}')
