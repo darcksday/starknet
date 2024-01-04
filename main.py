@@ -5,6 +5,7 @@ from helpers.factory import run_script, run_multiple, run_one_of_multiple
 from modules.activate_new.module import interface_deploy_argent_wallet
 from modules.balance.module import interface_check_balance
 from modules.change_owner.module import interface_change_owner
+from modules.claim_rocket.module import rocket_claim
 from modules.deploy.module import interface_deploy
 from modules.dmail.module import dmail_send_email
 from modules.exchange_withdraw.module import interface_exchange_withdraw
@@ -49,6 +50,8 @@ if __name__ == '__main__':
             cprint(f'15. Deploy new argent wallets', 'yellow')
             cprint(f'16. Deploy smart-contract: FT/NFT', 'yellow')
             cprint(f'17. Change wallet owner', 'yellow')
+
+            cprint(f'19. Claim Rocket', 'yellow')
 
 
             try:
@@ -141,6 +144,12 @@ if __name__ == '__main__':
 
                 interface_snyper()
 
+                break
+
+
+
+            elif option == 19:
+                run_script(rocket_claim, "0", [])
                 break
 
             else:

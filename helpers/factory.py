@@ -37,7 +37,7 @@ def call_function(
     try:
         tx_hash = method(account, amount, *params)
         if tx_hash and method not in [orbiter_bridge_to_starknet]:
-            account.wait_until_tx_finished(tx_hash)
+            # account.wait_until_tx_finished(tx_hash)
             write_csv_success(account._id, {
                 'status': 1,
                 'csv_name': csv_name,
