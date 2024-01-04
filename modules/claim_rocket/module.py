@@ -19,7 +19,7 @@ def rocket_claim(account: Starknet,amount=0):
     proof =get_proof(account.address_original)
     integers = [int(hex_str, 16) for hex_str in proof]
 
-    referer=0x01ae597d52d77bD21892bA61dd8bddeF66f6C382E49fAb6C37229Ac46E8bD352
+    referer=0x678f58f34094e3b8deef86fd6085f55a3a4563bed7c18159d7bbfb3a7cce87a
     rocket_contract = account.get_contract(CLAIM_CONTRACT, ROCKER_ABI,1)
     claim_call = rocket_contract.functions["claim"].prepare(
         points,
