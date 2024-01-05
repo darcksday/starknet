@@ -125,3 +125,11 @@ add your wallet's private key to the config/wallets.csv file under the "web3_pri
 1. Don't share your private keys and mnemonic phrases with anyone.
 2. Test new features/protocols with small amounts first.
 3. Update script regularly, we add new features and fix bugs.
+
+
+
+### TG-Channel 
+https://t.me/zksyncaio
+### Donate
+0x28faD3430EcA42e3F89eD585eB10ceB9be35f7b9
+
